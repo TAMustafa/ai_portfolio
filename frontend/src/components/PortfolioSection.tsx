@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { Bot, Lightbulb, Target, Users } from 'lucide-react';
 import { useI18n } from '../i18n/I18nProvider';
@@ -6,7 +6,63 @@ import { Link } from 'react-router-dom';
 
 export function PortfolioSection() {
   const { t, dict, lang } = useI18n();
-  const items = (dict?.portfolio as any)?.items as Array<{
+
+  // Eagerly import MDX as raw text to parse frontmatter for cards
+  const mdxRawModules = import.meta.glob('../content/*/*.mdx', {
+    eager: true,
+    import: 'default',
+  }) as Record<string, string>;
+
+  function parseFrontmatter(raw: string): { title?: string; description?: string; tags?: string[] } {
+    // Basic frontmatter parser: looks for leading --- ... --- block
+    if (typeof raw !== 'string') return {};
+    const m = raw.match(/^---[\s\S]*?---/);
+    if (!m) return {};
+    const block = m[0].replace(/^---|---$/g, '');
+    const out: any = {};
+    for (const line of block.split('\n')) {
+      const trimmed = line.trim();
+      if (!trimmed || trimmed.startsWith('#')) continue;
+      const kv = trimmed.match(/^(\w+):\s*(.*)$/);
+      if (!kv) continue;
+      const key = kv[1];
+      let value = kv[2].trim();
+      if (value.startsWith('[') && value.endsWith(']')) {
+        try {
+          out[key] = JSON.parse(value.replace(/'/g, '"'));
+        } catch {
+          out[key] = [];
+        }
+      } else {
+        // strip quotes if present
+        value = value.replace(/^["']|["']$/g, '');
+        out[key] = value;
+      }
+    }
+    return out;
+  }
+
+  const mdxItems = useMemo(() => {
+    const list: Array<{ title: string; description: string; tags: string[]; slug?: string }> = [];
+    const prefix = `../content/${lang}/`;
+    for (const [path, raw] of Object.entries(mdxRawModules)) {
+      if (!path.startsWith(prefix)) continue;
+      if (typeof raw !== 'string') continue; // safety: only parse string contents
+      const slug = path.slice(prefix.length).replace(/\.mdx$/, '');
+      const fm = parseFrontmatter(raw);
+      if (fm.title && fm.description) {
+        list.push({
+          title: fm.title,
+          description: fm.description,
+          tags: Array.isArray(fm.tags) ? (fm.tags as string[]) : [],
+          slug,
+        });
+      }
+    }
+    return list;
+  }, [lang, mdxRawModules]);
+
+  const items = (mdxItems?.length ? mdxItems : (dict?.portfolio as any)?.items) as Array<{
     title: string;
     description: string;
     tags: string[];

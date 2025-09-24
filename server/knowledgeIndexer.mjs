@@ -45,6 +45,29 @@ function stripMarkup(src) {
   return src.replace(/```[\s\S]*?```/g, '').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
 }
 
+// Simple frontmatter parser for leading --- ... --- blocks
+function parseFrontmatter(raw) {
+  const m = raw.match(/^---[\s\S]*?---/);
+  if (!m) return {};
+  const block = m[0].replace(/^---|---$/g, '');
+  const out = {};
+  for (const line of block.split('\n')) {
+    const trimmed = line.trim();
+    if (!trimmed || trimmed.startsWith('#')) continue;
+    const kv = trimmed.match(/^(\w+):\s*(.*)$/);
+    if (!kv) continue;
+    const key = kv[1];
+    let value = kv[2].trim();
+    if (value.startsWith('[') && value.endsWith(']')) {
+      try { out[key] = JSON.parse(value.replace(/'/g, '"')); } catch { out[key] = []; }
+    } else {
+      value = value.replace(/^["']|["']$/g, '');
+      out[key] = value;
+    }
+  }
+  return out;
+}
+
 import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
 let rawTranslations;
@@ -106,22 +129,27 @@ export function buildKnowledgeIndex() {
     const rel = path.relative(CONTENT_DIR, f);
     const [lang, name] = rel.split(path.sep);
     const slug = (name || '').replace(/\.mdx$/, '');
+    const fm = parseFrontmatter(raw);
     const props = parseProjectLayoutProps(raw);
     const text = stripMarkup(raw);
 
     // Find if a doc for this slug already exists from translations, and enrich it.
     const existingDoc = docs.find(d => d.slug === slug && d.lang === lang);
     if (existingDoc) {
+      // Prefer frontmatter fields when available
+      if (fm.title && !existingDoc.title) existingDoc.title = fm.title;
+      if (Array.isArray(fm.tags) && (!existingDoc.tags || existingDoc.tags.length === 0)) existingDoc.tags = fm.tags;
+      if (fm.description) existingDoc.text = `${fm.description} ${existingDoc.text || ''}`.trim();
       existingDoc.text += ` ${text}`; // Append full content
     } else {
       docs.push({
         id: `${lang}-mdx-${slug}`,
         lang: lang || 'en',
         type: 'project_detail',
-        title: props.title || slug,
+        title: fm.title || props.title || slug,
         slug,
-        text,
-        tags: [], // Tags are in translations
+        text: fm.description ? `${fm.description} ${text}` : text,
+        tags: Array.isArray(fm.tags) ? fm.tags : [],
       });
     }
   }

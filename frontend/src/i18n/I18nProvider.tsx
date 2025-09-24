@@ -1,6 +1,8 @@
 import React, { createContext, useContext, useEffect, useMemo, useState } from 'react';
-import { translations } from './translations';
+import i18next, { Resource } from 'i18next';
+import { initReactI18next, useTranslation } from 'react-i18next';
 import type { Lang, TranslationDict } from './types';
+import translationsData from './translations.json';
 
 interface I18nContextValue {
   lang: Lang;
@@ -10,18 +12,45 @@ interface I18nContextValue {
 }
 
 const I18N_STORAGE_KEY = 'app.lang';
+const DEFAULT_LANG: Lang = 'nl';
+const NS = 'translation';
+
+// Prepare resources for i18next from the existing translations.json shape
+const resources: Resource = {
+  nl: { [NS]: (translationsData as any).nl },
+  en: { [NS]: (translationsData as any).en },
+};
+
+// Initialize i18next once (module scope)
+if (!i18next.isInitialized) {
+  i18next
+    .use(initReactI18next)
+    .init({
+      resources,
+      lng: DEFAULT_LANG,
+      fallbackLng: 'en',
+      ns: [NS],
+      defaultNS: NS,
+      interpolation: { escapeValue: false },
+      returnNull: false,
+    });
+}
 
 const I18nContext = createContext<I18nContextValue | undefined>(undefined);
 
-function getNested(dict: TranslationDict, path: string): unknown {
-  return path.split('.').reduce<unknown>((acc: any, key) => (acc ? acc[key] : undefined), dict);
-}
-
 export function I18nProvider({ children }: { children: React.ReactNode }) {
+  // Persist language in localStorage (same key as before)
   const [lang, setLangState] = useState<Lang>(() => {
     const saved = typeof window !== 'undefined' ? (localStorage.getItem(I18N_STORAGE_KEY) as Lang | null) : null;
-    return saved ?? 'nl';
+    return saved ?? (i18next.language as Lang) ?? DEFAULT_LANG;
   });
+
+  // Keep i18next in sync when lang changes
+  useEffect(() => {
+    if (i18next.language !== lang) {
+      i18next.changeLanguage(lang);
+    }
+  }, [lang]);
 
   const setLang = (value: Lang) => {
     setLangState(value);
@@ -30,28 +59,35 @@ export function I18nProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
-  const dict = useMemo(() => translations[lang], [lang]);
+  // react-i18next hook for t function
+  const { t: rt } = useTranslation();
 
+  // Expose a dict similar to before (resource bundle for current lang)
+  const dict = useMemo<TranslationDict>(() => {
+    try {
+      return i18next.getResourceBundle(lang, NS) as TranslationDict;
+    } catch {
+      return {} as TranslationDict;
+    }
+  }, [lang]);
+
+  // Side effects: <html lang> and document title from brand
   useEffect(() => {
     if (typeof document !== 'undefined') {
       document.documentElement.lang = lang;
-      // Optional: update title subtly to match brand
-      const brand = getNested(dict, 'common.brand');
-      if (typeof brand === 'string') {
+      const brand = rt('common.brand');
+      if (brand && typeof brand === 'string') {
         document.title = `${brand} — Portfolio`;
       }
     }
-  }, [lang, dict]);
+  }, [lang, rt]);
 
   const value = useMemo<I18nContextValue>(() => ({
     lang,
     setLang,
     dict,
-    t: (path: string) => {
-      const v = getNested(dict, path);
-      return typeof v === 'string' ? v : String(v ?? path);
-    },
-  }), [lang, dict]);
+    t: (path: string) => rt(path),
+  }), [lang, dict, rt]);
 
   return <I18nContext.Provider value={value}>{children}</I18nContext.Provider>;
 }

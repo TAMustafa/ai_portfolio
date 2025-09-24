@@ -4,10 +4,11 @@ import { PortfolioSection } from './components/PortfolioSection';
 import { AboutSection } from './components/AboutSection';
 import { ContactSection } from './components/ContactSection';
 import { Footer } from './components/Footer';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate, useNavigate, useLocation, matchPath } from 'react-router-dom';
 import ProjectPage from './pages/ProjectPage';
 import ChatbotWidget from './components/ChatbotWidget';
 import ScrollDots from './components/ScrollDots';
+import { useI18n } from './i18n/I18nProvider';
 
 function HomePage() {
   return (
@@ -22,13 +23,21 @@ function HomePage() {
 export default function App() {
   const [activeSection, setActiveSection] = useState('about');
   const sections = ['about', 'portfolio', 'contact'];
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { lang } = useI18n();
+
+  // Dots should be visible only on home pages like '/nl' or '/en'
+  const isHome =
+    !!matchPath({ path: '/:lang', end: true }, location.pathname) &&
+    !matchPath({ path: '/:lang/project/:slug', end: false }, location.pathname);
 
   useEffect(() => {
+    if (!isHome) return; // only attach logic on home pages
     const root = document.getElementById('scroll-container');
     if (!root) return;
-    // Account for the fixed Header (~80px height) so a section is considered active
-    // when its content is visible below the header. rootMargin shrinks the top
-    // of the viewport for intersection calculations.
+
+    // IntersectionObserver for primary detection
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -37,32 +46,67 @@ export default function App() {
           }
         });
       },
-      { root, threshold: 0.5, rootMargin: '-80px 0px -30% 0px' }
+      { root, threshold: 0.3, rootMargin: '-64px 0px -40% 0px' }
     );
     sections.forEach((id) => {
       const el = document.getElementById(id);
       if (el) observer.observe(el);
     });
-    return () => observer.disconnect();
-  }, []);
+
+    // Scroll-based fallback to keep dots responsive during snap animations
+    const headerOffset = 80;
+    const onScroll = () => {
+      const positions = sections
+        .map((id) => {
+          const el = document.getElementById(id);
+          if (!el) return { id, dist: Number.POSITIVE_INFINITY };
+          const rect = el.getBoundingClientRect();
+          // distance from header line
+          const dist = Math.abs(rect.top - headerOffset);
+          return { id, dist };
+        })
+        .sort((a, b) => a.dist - b.dist);
+      if (positions.length && positions[0].dist !== Number.POSITIVE_INFINITY) {
+        setActiveSection(positions[0].id);
+      }
+    };
+    root.addEventListener('scroll', onScroll, { passive: true });
+
+    return () => {
+      observer.disconnect();
+      root.removeEventListener('scroll', onScroll);
+    };
+  }, [isHome, location.pathname]);
 
   const scrollToSection = (id: string) => {
-    const container = document.getElementById('scroll-container');
-    const target = document.getElementById(id);
-    if (!container || !target) return;
-    // Scroll the internal container so we don't affect the body scroll.
-    const containerTop = container.getBoundingClientRect().top;
-    const targetTop = target.getBoundingClientRect().top;
-    const currentScroll = container.scrollTop;
-    const headerOffset = 80; // keep in sync with Header height
-    const delta = targetTop - containerTop + currentScroll - headerOffset;
-    container.scrollTo({ top: delta, behavior: 'smooth' });
+    const doScroll = () => {
+      const container = document.getElementById('scroll-container');
+      const target = document.getElementById(id);
+      if (!container || !target) return;
+      const containerTop = container.getBoundingClientRect().top;
+      const targetTop = target.getBoundingClientRect().top;
+      const currentScroll = container.scrollTop;
+      const headerOffset = 80; // keep in sync with Header height
+      const delta = targetTop - containerTop + currentScroll - headerOffset;
+      container.scrollTo({ top: delta, behavior: 'smooth' });
+    };
+
+    // If we are not on the home page (no internal scroll container), navigate then scroll
+    if (!document.getElementById('scroll-container')) {
+      navigate(`/${lang}`);
+      // delay to allow home to mount before scrolling
+      setTimeout(doScroll, 100);
+      return;
+    }
+    doScroll();
   };
 
   return (
     <div className="bg-gray-900 text-gray-200 font-sans antialiased">
       <Header activeSection={activeSection} scrollToSection={scrollToSection} />
-      <ScrollDots activeSection={activeSection} sections={sections} onSelect={scrollToSection} />
+      {isHome && (
+        <ScrollDots activeSection={activeSection} sections={sections} onSelect={scrollToSection} />
+      )}
       <main>
         <Routes>
           <Route path="/" element={<Navigate to="/nl" replace />} />

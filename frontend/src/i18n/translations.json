@@ -1,7 +1,7 @@
 {
   "nl": {
     "common": {
-      "brand": "automai",
+      "brand": "tarek ai portfolio",
       "tagline": "Lokale bedrijven versterken met intelligente automatisering",
       "language": "Nederlands",
       "switch_to": "Switch naar Engels"
@@ -10,6 +10,15 @@
       "about": "Over Mij",
       "portfolio": "Portfolio",
       "contact": "Contact"
+    },
+    "about": {
+      "title": "Over Mij",
+      "subtitle": "Ik ben ben Tarek",
+      "resume_cta": "Bekijk mijn CV",
+      "socials": {
+        "linkedin": "https://linkedin.com/in/your-profile",
+        "github": "https://github.com/your-profile"
+      }
     },
     "portfolio": {
       "title": "Portfolio Projecten",
@@ -40,15 +49,6 @@
           "tags": ["Workflow", "CRM", "E-mail parsing"]
         }
       ]
-    },
-    "about": {
-      "title": "Over Mij",
-      "subtitle": "Ik ben een ontwikkelaar en strateeg met een passie voor het benutten van technologie om echte bedrijfsproblemen op te lossen. Mijn missie is om krachtige, intelligente automatisering te bouwen die bedrijven in staat stelt zich te concentreren op wat ze het beste doen.",
-      "resume_cta": "Bekijk mijn CV",
-      "socials": {
-        "linkedin": "https://linkedin.com/in/your-profile",
-        "github": "https://github.com/your-profile"
-      }
     },
     "contact": {
       "title": "Samen Bouwen?",

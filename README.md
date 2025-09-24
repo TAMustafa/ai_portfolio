@@ -45,8 +45,8 @@ npm run preview
 ## Features
 
 - Multilingual (Dutch default) with instant toggle
-  - Implemented via a lightweight i18n context (`src/i18n/I18nProvider.tsx`)
-  - Translations in `src/i18n/translations.ts`
+  - Implemented with `react-i18next` in `frontend/src/i18n/I18nProvider.tsx`
+  - UI strings live in `frontend/src/i18n/translations.json`
   - Language preference persisted to `localStorage`
 
 - Language-aware routing
@@ -54,8 +54,9 @@ npm run preview
   - Project page: `/:lang/project/:slug`
   - Root `/` redirects to `/nl`
 
-- MDX-backed project pages
-  - Content stored in `src/content/{nl,en}/<slug>.mdx`
+- MDX-backed portfolio and project pages
+  - Content stored in `frontend/src/content/{nl,en}/<slug>.mdx`
+  - Portfolio cards now read title/description/tags from MDX frontmatter (per locale)
   - MDX files loaded dynamically with `import.meta.glob`
   - Global MDX styling via `MDXProvider` + Tailwind Typography
   - Reusable MDX components: `ProjectLayout`, `Callout`
@@ -68,22 +69,26 @@ npm run preview
 
 Create or edit project pages per language using MDX.
 
-1) Add a slug for each portfolio item in translations
-   - File: `src/i18n/translations.ts`
-   - Example (Dutch):
-   ```ts
-   nl: {
-     portfolio: {
-       items: [
-         { slug: 'geautomatiseerd-voorraadbeheer', title: '...', description: '...', tags: ['E-commerce'] },
-       ]
-     }
-   }
-   ```
+1) Create MDX files per language
+   - Dutch: `frontend/src/content/nl/<slug>.mdx`
+   - English: `frontend/src/content/en/<slug>.mdx`
 
-2) Create MDX files matching the slugs
-   - Dutch: `src/content/nl/<slug>.mdx`
-   - English: `src/content/en/<slug>.mdx`
+2) Add frontmatter for portfolio cards (title, description, tags)
+   ```mdx
+   ---
+   title: "Geautomatiseerd Voorraadbeheer"
+   description: "Realtime synchronisatie tussen verkoopkanalen en magazijnvoorraad."
+   tags: ["E-commerce", "API-integratie", "Realtime"]
+   ---
+   <ProjectLayout
+     title="Geautomatiseerd Voorraadbeheer"
+     subtitle="Realtime synchronisatie tussen verkoopkanalen en magazijnvoorraad"
+     tags={["E-commerce", "API-integratie", "Realtime"]}
+     heroImageUrl="https://images.unsplash.com/photo-..."
+   >
+   ...
+   </ProjectLayout>
+   ```
 
 3) Use the provided MDX components without imports
    - `ProjectLayout`: renders a hero-like header + tags + content area
@@ -124,13 +129,13 @@ Tekst en code…
       - `Header`, `HeroSection`, `PortfolioSection`, `AboutSection`, `ContactSection`, `Footer`, `AnimatedSection`
       - `mdx/ProjectLayout.tsx`, `mdx/Callout.tsx`
     - `pages/ProjectPage.tsx` — MDX loader + provider + page chrome
-    - `content/{nl,en}/` — MDX project pages per language
-    - `i18n/` — `translations.json`, `translations.ts`, and provider
+    - `content/{nl,en}/` — MDX project pages per language (with frontmatter for cards)
+    - `i18n/` — `translations.json` and provider (react-i18next)
     - `index.css` — Tailwind + custom utilities (grid background, blob animation, delays)
   - `postcss.config.js`
 - `server/`
   - `server.mjs` — Express API (`/api/chat`, `/api/health`, `/api/reindex`)
-  - `knowledgeIndexer.mjs` — builds search index from `frontend/src/...`
+  - `knowledgeIndexer.mjs` — builds search index from `frontend/src/...`; prefers MDX frontmatter for title/description/tags
   - `Dockerfile` — Cloud Run container for the backend
 - `tailwind.config.ts` — Tailwind + Typography plugin, dark prose tuning (supports new structure)
 - `vite.config.ts` — configured to use `frontend/` as Vite root and proxy `/api` to `http://localhost:3001`
@@ -141,6 +146,22 @@ Tekst en code…
 - `npm run dev` — start Vite dev server
 - `npm run build` — type-check + build for production
 - `npm run preview` — preview the production build
+
+## i18n (react-i18next)
+
+- Provider: `frontend/src/i18n/I18nProvider.tsx`
+- Resources: `frontend/src/i18n/translations.json`
+- Usage in components:
+  - `const { t, lang, setLang } = useI18n()`
+  - `t('nav.portfolio')`
+- Language persisted in `localStorage` and `<html lang>` is kept in sync.
+
+## Scrolling and Navigation
+
+- The homepage uses an internal scroll container (`#scroll-container`) with snap sections.
+- The header and scroll dots offset the fixed header height; intersections are tuned for accurate section highlighting.
+- Project pages have their own scroll container (`h-screen overflow-y-auto pt-20`) so layout remains consistent.
+- Navigating from a project page to a section on the homepage smoothly navigates to `/:lang` and scrolls to the target section.
 
 ## Production Config
 
