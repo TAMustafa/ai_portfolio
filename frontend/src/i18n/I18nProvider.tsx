@@ -2,7 +2,8 @@ import React, { createContext, useContext, useEffect, useMemo, useState } from '
 import i18next, { Resource } from 'i18next';
 import { initReactI18next, useTranslation } from 'react-i18next';
 import type { Lang, TranslationDict } from './types';
-import translationsData from './translations.json';
+import nl from './nl.json';
+import en from './en.json';
 
 interface I18nContextValue {
   lang: Lang;
@@ -17,8 +18,8 @@ const NS = 'translation';
 
 // Prepare resources for i18next from the existing translations.json shape
 const resources: Resource = {
-  nl: { [NS]: (translationsData as any).nl },
-  en: { [NS]: (translationsData as any).en },
+  nl: { [NS]: nl as any },
+  en: { [NS]: en as any },
 };
 
 // Initialize i18next once (module scope)

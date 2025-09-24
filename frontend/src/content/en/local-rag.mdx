@@ -1,0 +1,42 @@
+<ProjectLayout
+  title="A secure and lokal LLM / RAG system"
+  subtitle="A concise subtitle that expands on the value delivered"
+  tags={["Tag1", "Tag2", "Tag3"]}
+  heroImageUrl="https://images.unsplash.com/photo-..."
+>
+
+In a data-driven world, companies face the dual challenge of managing vast amounts of information and protecting sensitive data.
+Traditional search methods often fall short; they deliver documents without context and risk data exposure on external platforms.
+This project addresses these issues by combining local Large Language Models (LLMs) with Retrieval-Augmented Generation (RAG) to create a more secure and accurate information system.
+
+## The Solution: Local LLMs + RAG
+This project demonstrates how to build a local RAG pipeline that keeps all data processing internal. This approach offers two major benefits:
+
+<Callout type="success" title="Data Security:">
+By running an LLM locally with tools like Ollama, sensitive data stays within the organization's network.
+
+</Callout>
+
+Context-aware information: The RAG architecture first retrieves relevant information from a local vector database (ChromaDB) and then provides this context to the LLM to generate more precise answers.
+
+### Technology Used
+This project provided a hands-on experience using several key technologies:
+
+- **Python**: The pipeline was developed in Python.
+- **LangChain**: LangChain was used to orchestrate the RAG pipeline, including splitting documents into smaller pieces and configuring the retriever.
+- **LLM**: The system uses GPT-4 turbo-preview via an API for simplicity, although it is designed for local models.
+- **Embeddings**: The system uses OpenAIEmbeddings with text-embedding-3-large to convert text into vectors. - Vector Databases: The project uses ChromaDB to store and retrieve document embeddings.
+- Prompt Engineering: A system template was designed to control the LLM's behavior, ensuring that answers are provided only based on the provided context.
+
+### A Practical Example
+Imagine an employee needs to find a specific policy detail. Instead of searching manually, they can ask a question in natural language.
+The system then retrieves the most relevant parts of the document, generates a concise answer, and cites the original source.
+This process is designed to save time and provide more verifiable information.
+
+![alt text](/images/query-processing.png "Query Processing")
+
+<Callout type="info" title="Source Code">
+The entire source code is on my <a href="https://github.com/TAMustafa/LangchainRAG_Streamlit/tree/main" target="_blank">Github</a>
+</Callout>
+
+</ProjectLayout>

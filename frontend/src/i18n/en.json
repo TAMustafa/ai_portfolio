@@ -1,0 +1,69 @@
+{
+  "common": {
+    "brand": "tarek ai portfolio",
+    "tagline": "Empowering Local Businesses Through Intelligent Automation",
+    "language": "English",
+    "switch_to": "Switch to Dutch"
+  },
+  "nav": {
+    "about": "About Me",
+    "portfolio": "Portfolio",
+    "contact": "Contact"
+  },
+  "portfolio": {
+    "title": "Portfolio Projects",
+    "subtitle": "Here are some of the projects I have worked on.",
+    "items": [
+      {
+        "slug": "local-rag",
+        "title": "A secure and lokal LLM / RAG system",
+        "description": "Lokale RAG for use if data can't be stored on external servers",
+        "tags": ["E-commerce", "API Integration", "Real-time Sync"]
+      },
+      {
+        "slug": "ai-customer-support",
+        "title": "AI-Powered Customer Support",
+        "description": "Implemented a chatbot handling 80% of routine customer queries, improving response times and customer satisfaction.",
+        "tags": ["AI/ML", "Customer Service", "NLP"]
+      },
+      {
+        "slug": "dynamic-pricing-engine",
+        "title": "Dynamic Pricing Engine",
+        "description": "Created a pricing tool for a local travel agent that adjusts prices based on demand and competitor data, boosting profits by 15%.",
+        "tags": ["Data Analysis", "Automation", "API"]
+      },
+      {
+        "slug": "crm-data-entry-automatisering",
+        "title": "CRM Data Entry Automation",
+        "description": "Built a workflow that automatically extracts customer info from emails and populates the CRM, saving 10+ hours of manual work weekly.",
+        "tags": ["Workflow Automation", "CRM", "Email Parsing"]
+      }
+    ]
+  },
+  "about": {
+    "title": "About Me",
+    "subtitle": "I am a developer and strategist with a passion for leveraging technology to solve real-world business problems. My mission is to build powerful, intelligent automation that empowers businesses to focus on what they do best.",
+    "resume_cta": "View My Resume",
+    "socials": {
+      "linkedin": "https://linkedin.com/in/your-profile",
+      "github": "https://github.com/your-profile"
+    }
+  },
+  "contact": {
+    "title": "Let's Build Together",
+    "subtitle": "Ready to automate your workflows and unlock your business's full potential? Reach out to us. We're excited to learn about your challenges.",
+    "labels": {
+      "name": "Name",
+      "email": "Email",
+      "message": "How can we help?"
+    },
+    "cta": "Send Message",
+    "submitting": "Submitting...",
+    "thank_you_title": "Thank You!",
+    "thank_you_message": "Your message has been sent. We'll be in touch shortly.",
+    "send_another": "Send Another"
+  },
+  "footer": {
+    "rights": "All rights reserved."
+  }
+}

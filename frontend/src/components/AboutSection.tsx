@@ -30,7 +30,7 @@ export const AboutSection = () => {
           transition={{ duration: 0.5 }}
         >
           <img 
-            src="/profile.jpg" 
+            src="/images/TarekMustafa.png" 
             alt="Profile" 
             className="rounded-full object-cover w-full h-full border-4 border-gray-700 shadow-lg"
           />

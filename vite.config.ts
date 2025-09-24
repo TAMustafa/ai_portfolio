@@ -9,7 +9,7 @@ const hasFrontend = fs.existsSync(path.resolve(process.cwd(), 'frontend'));
 
 export default defineConfig({
   root: hasFrontend ? 'frontend' : '.',
-  publicDir: hasFrontend ? 'frontend/public' : 'public',
+  publicDir: hasFrontend ? 'public' : 'public',
   plugins: [
     mdx({
       jsxImportSource: 'react',

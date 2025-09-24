@@ -72,11 +72,18 @@ import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
 let rawTranslations;
 try {
-  // New layout: translations under frontend/src
-  rawTranslations = require('../frontend/src/i18n/translations.json');
-} catch (_e1) {
-  // Legacy layout fallback: translations under root/src
-  rawTranslations = require('../src/i18n/translations.json');
+  // Preferred: per-locale files
+  const nl = require('../frontend/src/i18n/nl.json');
+  const en = require('../frontend/src/i18n/en.json');
+  rawTranslations = { nl, en };
+} catch (_e0) {
+  try {
+    // Fallback: combined translations.json in frontend/src
+    rawTranslations = require('../frontend/src/i18n/translations.json');
+  } catch (_e1) {
+    // Legacy layout fallback: translations under root/src
+    rawTranslations = require('../src/i18n/translations.json');
+  }
 }
 
 // --- Main Indexing Function ---

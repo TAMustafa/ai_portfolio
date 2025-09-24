@@ -1,0 +1,42 @@
+<ProjectLayout
+  title="Een veilig en lokaal LLM / RAG systeem"
+  subtitle="A concise subtitle that expands on the value delivered"
+  tags={["Tag1", "Tag2", "Tag3"]}
+  heroImageUrl="https://images.unsplash.com/photo-..."
+>
+
+In een wereld die wordt aangedreven door data, staan bedrijven voor de dubbele uitdaging van het beheren van enorme hoeveelheden informatie en het beschermen van gevoelige gegevens. 
+Traditionele zoekmethoden schieten vaak tekort; ze leveren documenten zonder context en riskeren data-expositie op externe platforms. 
+Dit project pakt deze problemen aan door lokale Large Language Models (LLM's) te combineren met Retrieval-Augmented Generation (RAG) om een veiliger en accurater informatiesysteem te creëren.
+
+## De Oplossing: Lokale LLM's + RAG
+Dit project laat zien hoe je een lokale RAG-pipeline kunt bouwen die alle dataverwerking intern houdt. Deze aanpak biedt twee grote voordelen:
+
+<Callout type="success" title="Gegevensbeveiliging:">
+Door een LLM lokaal te draaien met tools zoals Ollama, verlaten gevoelige gegevens het netwerk van de organisatie niet.
+</Callout>
+
+Context-bewuste informatie: De RAG-architectuur haalt eerst relevante informatie op uit een lokale vectordatabase (ChromaDB) en geeft deze context vervolgens aan de LLM om meer precieze antwoorden te genereren.
+
+### Gebruikte Technologie
+Dit project was een praktische ervaring met het gebruik van verschillende belangrijke technologieën:
+
+- **Python**: De pipeline werd ontwikkeld in Python.
+- **LangChain**: LangChain werd gebruikt om de RAG-pipeline te orkestreren, inclusief het opsplitsen van documenten in kleinere stukken en het configureren van de retriever.
+- **LLM**: Het systeem maakt gebruik van GPT-4-turbo-preview via een API voor de eenvoud, hoewel het is ontworpen voor lokale modellen.
+- **Embeddings**: Het systeem maakt gebruik van OpenAIEmbeddings met text-embedding-3-large om tekst om te zetten in vectoren.
+- **Vectordatabases**: Het project maakt gebruik van ChromaDB om document-embeddings op te slaan en op te halen.
+- **Prompt Engineering**: Er werd een systeem-template ontworpen om het gedrag van de LLM te sturen, en zo te garanderen dat antwoorden alleen worden gegeven op basis van de verstrekte context.
+
+### Een Praktisch Voorbeeld
+Stel je voor dat een werknemer een specifiek beleidsdetail moet vinden. In plaats van handmatig te zoeken, kan hij of zij een vraag in natuurlijke taal stellen. 
+Het systeem haalt vervolgens de meest relevante delen van het document op, genereert een beknopt antwoord en citeert de oorspronkelijke bron. 
+Dit proces is gericht op het besparen van tijd en het leveren van meer verifieerbare informatie.
+
+![alt text](/images/query-processing.png "Query Processing")
+
+<Callout type="info" title="Source Code">
+The entire source code is on my <a href="https://github.com/TAMustafa/LangchainRAG_Streamlit/tree/main" target="_blank">Github</a>
+</Callout>
+
+</ProjectLayout>
