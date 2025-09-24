@@ -1,37 +1,51 @@
 <ProjectLayout
   title="Een veilig en lokaal LLM / RAG systeem"
   subtitle="A concise subtitle that expands on the value delivered"
-  tags={["Tag1", "Tag2", "Tag3"]}
-  heroImageUrl="https://images.unsplash.com/photo-..."
->
+  tags={["ChromaDB", "RAG", "Embeddings", "Langchain"]}
+  >
 
-In een wereld die wordt aangedreven door data, staan bedrijven voor de dubbele uitdaging van het beheren van enorme hoeveelheden informatie en het beschermen van gevoelige gegevens. 
-Traditionele zoekmethoden schieten vaak tekort; ze leveren documenten zonder context en riskeren data-expositie op externe platforms. 
-Dit project pakt deze problemen aan door lokale Large Language Models (LLM's) te combineren met Retrieval-Augmented Generation (RAG) om een veiliger en accurater informatiesysteem te creëren.
+In de huidige datagedreven wereld staan ​​organisaties voor twee hardnekkige uitdagingen:
+het beheren van enorme hoeveelheden verspreide informatie en
+het beschermen van gevoelige gegevens tegen het verlaten van beveiligde omgevingen.
 
-## De Oplossing: Lokale LLM's + RAG
-Dit project laat zien hoe je een lokale RAG-pipeline kunt bouwen die alle dataverwerking intern houdt. Deze aanpak biedt twee grote voordelen:
+Traditionele zoekmethoden schieten hier meestal tekort: ze retourneren ruwe documenten zonder context en lopen het risico vertrouwelijke gegevens bloot te leggen wanneer externe cloudservices betrokken zijn.
 
-<Callout type="success" title="Gegevensbeveiliging:">
-Door een LLM lokaal te draaien met tools zoals Ollama, verlaten gevoelige gegevens het netwerk van de organisatie niet.
+Dit project pakt deze problemen aan door lokale Large Language Models (LLM's) te combineren met Retrieval-Augmented Generation (RAG) – waardoor een systeem ontstaat dat zowel privacy-eerlijk als zeer nauwkeurig is.
+
+## De oplossing: Lokale LLM's + RAG
+Dit project laat zien hoe je een volledig lokale RAG-pipeline bouwt die ervoor zorgt dat alle gegevensverwerking intern plaatsvindt.
+
+<Callout type="success" title="Data Security:">
+Door een LLM lokaal uit te voeren met tools zoals **Ollama**, blijven gevoelige 
+gegevens binnen de infrastructuur van de organisatie – zonder externe blootstelling. 
 </Callout>
 
-Context-bewuste informatie: De RAG-architectuur haalt eerst relevante informatie op uit een lokale vectordatabase (ChromaDB) en geeft deze context vervolgens aan de LLM om meer precieze antwoorden te genereren.
+**Contextbewuste antwoorden:** De **RAG-pipeline** haalt relevante informatie op uit een lokale vectordatabase (ChromaDB) en voert deze in de LLM in, wat zorgt voor nauwkeurige, gecontextualiseerde antwoorden met duidelijke bronverwijzingen.
 
-### Gebruikte Technologie
-Dit project was een praktische ervaring met het gebruik van verschillende belangrijke technologieën:
+### Gebruikte technologie
+Dit project bood een praktische ervaring met verschillende belangrijke technologieën:
 
-- **Python**: De pipeline werd ontwikkeld in Python.
-- **LangChain**: LangChain werd gebruikt om de RAG-pipeline te orkestreren, inclusief het opsplitsen van documenten in kleinere stukken en het configureren van de retriever.
-- **LLM**: Het systeem maakt gebruik van GPT-4-turbo-preview via een API voor de eenvoud, hoewel het is ontworpen voor lokale modellen.
-- **Embeddings**: Het systeem maakt gebruik van OpenAIEmbeddings met text-embedding-3-large om tekst om te zetten in vectoren.
-- **Vectordatabases**: Het project maakt gebruik van ChromaDB om document-embeddings op te slaan en op te halen.
-- **Prompt Engineering**: Er werd een systeem-template ontworpen om het gedrag van de LLM te sturen, en zo te garanderen dat antwoorden alleen worden gegeven op basis van de verstrekte context.
+- **Python + FastAPI:** Voor de backend-pipeline en het bedienen van de RAG-workflow.
+- **LangChain:** Om het splitsen, insluiten en ophalen van documenten te orkestreren.
+- **Vectordatabase:** ChromaDB voor snel en efficiënt zoeken naar overeenkomsten.
+- **LLM's:** Werkt met zowel lokale Ollama-modellen (bijv. Mistral, Llama 2) als cloud-API's zoals GPT-4 turbo voor flexibiliteit.
+- **Insluitingen:** nomic-embed-text (lokaal) of OpenAI's text-embedding-3-large.
+- **Frontend:** React + TypeScript voor een overzichtelijke, interactieve chatinterface met bronvermeldingen.
 
-### Een Praktisch Voorbeeld
-Stel je voor dat een werknemer een specifiek beleidsdetail moet vinden. In plaats van handmatig te zoeken, kan hij of zij een vraag in natuurlijke taal stellen. 
-Het systeem haalt vervolgens de meest relevante delen van het document op, genereert een beknopt antwoord en citeert de oorspronkelijke bron. 
-Dit proces is gericht op het besparen van tijd en het leveren van meer verifieerbare informatie.
+### Een praktisch voorbeeld
+Stel je een medewerker voor die op zoek is naar een detail in het beleidshandboek van het bedrijf. In plaats van handmatig te zoeken:
+- Stelt hij/zij een vraag in natuurlijke taal.
+- Het systeem haalt de meest relevante stukken op uit de documentendatabase.
+- De LLM genereert een beknopt, gedocumenteerd antwoord.
+
+Deze workflow bespaart tijd, verbetert de nauwkeurigheid en bouwt vertrouwen op door te laten zien waar het antwoord vandaan komt.
+
+### Waarom dit belangrijk is
+- Privacy en compliance: Houdt bedrijfseigen gegevens binnen het bedrijfsnetwerk.
+- Vertrouwen: Antwoorden zijn gebaseerd op daadwerkelijke documenten met bronvermeldingen.
+- Flexibiliteit: Wissel modellen uit, breid documenttypen uit of schaal eenvoudig.
+
+**Klaar voor de praktijk: Al inzetbaar voor kennisbeheer, beleidsopzoekingen of onderzoeksworkflows.
 
 ![alt text](/images/query-processing.png "Query Processing")
 

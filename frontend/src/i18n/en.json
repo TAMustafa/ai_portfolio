@@ -17,8 +17,8 @@
       {
         "slug": "local-rag",
         "title": "A secure and lokal LLM / RAG system",
-        "description": "Lokale RAG for use if data can't be stored on external servers",
-        "tags": ["E-commerce", "API Integration", "Real-time Sync"]
+        "description": "In today’s data-driven world, organizations face two persistent challenges: Managing massive amounts of scattered information, and Protecting sensitive data from leaving secure environments.",
+        "tags": ["ChromaDB", "RAG", "Embeddings", "Langchain"]
       },
       {
         "slug": "ai-customer-support",

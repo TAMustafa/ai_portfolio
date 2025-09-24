@@ -26,8 +26,8 @@
       {
         "slug": "locaal-rag",
         "title": "Een veilig en lokaal LLM / RAG systeem",
-        "description": "Locaal drainde RAG als data niet op externe servers kan worden opgeslagen",
-        "tags": ["Pydantic", "RAG", "FastAPI"]
+        "description": "In de huidige datagedreven wereld staan ​​organisaties voor twee hardnekkige uitdagingen: het beheren van enorme hoeveelheden verspreide informatie en het beschermen van gevoelige gegevens tegen het verlaten van beveiligde omgevingen.",
+        "tags": ["ChromaDB", "RAG", "Embeddings", "Langchain"]
       },
       {
         "slug": "ai-klantenservice",

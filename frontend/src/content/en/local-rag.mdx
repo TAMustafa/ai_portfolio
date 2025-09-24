@@ -1,42 +1,54 @@
 <ProjectLayout
-  title="A secure and lokal LLM / RAG system"
-  subtitle="A concise subtitle that expands on the value delivered"
-  tags={["Tag1", "Tag2", "Tag3"]}
-  heroImageUrl="https://images.unsplash.com/photo-..."
->
+  title="Local RAG Chat"
+  subtitle="Secure, Context-Aware Knowledge Retrieval"
+  tags={["ChromaDB", "RAG", "Embeddings", "Langchain"]}
+  >
 
-In a data-driven world, companies face the dual challenge of managing vast amounts of information and protecting sensitive data.
-Traditional search methods often fall short; they deliver documents without context and risk data exposure on external platforms.
-This project addresses these issues by combining local Large Language Models (LLMs) with Retrieval-Augmented Generation (RAG) to create a more secure and accurate information system.
+In today’s data-driven world, organizations face two persistent challenges:
+Managing massive amounts of scattered information, and
+Protecting sensitive data from leaving secure environments.
+Traditional search methods usually fail here: they return raw documents without context and risk exposing confidential data when external cloud services are involved.
+
+This project addresses these issues by combining local Large Language Models (LLMs) with Retrieval-Augmented Generation (RAG) — creating a system that is both privacy-first and highly accurate.
 
 ## The Solution: Local LLMs + RAG
-This project demonstrates how to build a local RAG pipeline that keeps all data processing internal. This approach offers two major benefits:
+This project demonstrates how to build a fully local RAG pipeline that ensures all data processing happens internally.
 
 <Callout type="success" title="Data Security:">
-By running an LLM locally with tools like Ollama, sensitive data stays within the organization's network.
-
+By running an LLM locally with tools like **Ollama**, sensitive data remains inside the organization’s infrastructure — no external exposure.
 </Callout>
 
-Context-aware information: The RAG architecture first retrieves relevant information from a local vector database (ChromaDB) and then provides this context to the LLM to generate more precise answers.
+**Context Aware Answers:** The **RAG pipeline** retrieves relevant information from a local vector database (ChromaDB) and feeds it into the LLM, ensuring precise, contextualized responses with clear source references.
 
 ### Technology Used
 This project provided a hands-on experience using several key technologies:
 
-- **Python**: The pipeline was developed in Python.
-- **LangChain**: LangChain was used to orchestrate the RAG pipeline, including splitting documents into smaller pieces and configuring the retriever.
-- **LLM**: The system uses GPT-4 turbo-preview via an API for simplicity, although it is designed for local models.
-- **Embeddings**: The system uses OpenAIEmbeddings with text-embedding-3-large to convert text into vectors. - Vector Databases: The project uses ChromaDB to store and retrieve document embeddings.
-- Prompt Engineering: A system template was designed to control the LLM's behavior, ensuring that answers are provided only based on the provided context.
+- **Python + FastAPI:** For the backend pipeline and serving the RAG workflow.
+- **LangChain:** To orchestrate document splitting, embedding, and retrieval.
+- **Vector Database:** ChromaDB for fast and efficient similarity search.
+- **LLMs:** Works with both local Ollama models (e.g. Mistral, Llama 2) and cloud APIs like GPT-4 turbo for flexibility.
+- **Embeddings:** nomic-embed-text (local) or OpenAI’s text-embedding-3-large.
+- **Frontend:** React + TypeScript for a clean, interactive chat interface with source citations.
 
 ### A Practical Example
-Imagine an employee needs to find a specific policy detail. Instead of searching manually, they can ask a question in natural language.
-The system then retrieves the most relevant parts of the document, generates a concise answer, and cites the original source.
-This process is designed to save time and provide more verifiable information.
+Imagine an employee looking for a detail in the company’s policy handbook. Instead of browsing manually:
+- They ask a question in natural language.
+- The system retrieves the most relevant chunks from the document database.
+- The LLM generates a concise, sourced answer.
+
+This workflow saves time, improves accuracy, and builds trust by showing where the answer came from.
+
+### Why This Matters
+- Privacy & Compliance: Keeps proprietary data inside the company network.
+- Trust: Answers are grounded in actual documents with citations.
+- Flexibility: Swap models, expand document types, or scale easily.
+
+**Real-World Ready**: Already deployable for knowledge management, policy lookup, or research workflows.
 
 ![alt text](/images/query-processing.png "Query Processing")
 
-<Callout type="info" title="Source Code">
-The entire source code is on my <a href="https://github.com/TAMustafa/LangchainRAG_Streamlit/tree/main" target="_blank">Github</a>
+<Callout type="info" title="Explore the Code">
+The full project is open-source and available on my <a href="https://github.com/TAMustafa/LangchainRAG_Streamlit/tree/main" target="_blank">Github</a>
 </Callout>
 
 </ProjectLayout>
