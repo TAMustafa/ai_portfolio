@@ -1,0 +1,19 @@
+# Ignore everything not needed to run the Express server in Cloud Run
+node_modules
+npm-debug.log
+Dockerfile
+.dockerignore
+
+# Frontend build output is not required in the server image
+/dist
+
+# Vite/TS caches
+.cache
+*.tsbuildinfo
+
+# Git
+.git
+.gitignore
+
+# OS files
+.DS_Store

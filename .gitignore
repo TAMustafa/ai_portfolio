@@ -1,0 +1,20 @@
+# Node
+node_modules/
+dist/
+*.tsbuildinfo
+
+# Env
+.env
+server/.env
+.env.*.local
+frontend/.env*
+!frontend/.env.example
+!frontend/.env.production.example
+
+# Editor/OS
+.DS_Store
+.idea/
+.vscode/
+
+# Personal Pages
+public/

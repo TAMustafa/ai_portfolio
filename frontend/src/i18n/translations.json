@@ -1,0 +1,140 @@
+{
+  "nl": {
+    "common": {
+      "brand": "automai",
+      "tagline": "Lokale bedrijven versterken met intelligente automatisering",
+      "language": "Nederlands",
+      "switch_to": "Switch naar Engels"
+    },
+    "nav": {
+      "about": "Over Mij",
+      "portfolio": "Portfolio",
+      "contact": "Contact"
+    },
+    "portfolio": {
+      "title": "Portfolio Projecten",
+      "subtitle": "Wij leveren tastbare resultaten. Dit zijn enkele oplossingen die we hebben gebouwd voor bedrijven zoals dat van jou.",
+      "items": [
+        {
+          "slug": "geautomatiseerd-voorraadbeheer",
+          "title": "Geautomatiseerd Voorraadbeheer",
+          "description": "Realtime synchronisatie tussen online verkopen en magazijnvoorraad, wat tekorten met 40% verminderde.",
+          "tags": ["E-commerce", "API-integratie", "Realtime sync"]
+        },
+        {
+          "slug": "ai-klantenservice",
+          "title": "AI-gestuurde Klantenservice",
+          "description": "Een chatbot die 80% van de standaardvragen afhandelt, met snellere reacties en hogere klanttevredenheid.",
+          "tags": ["AI/ML", "Klantenservice", "NLP"]
+        },
+        {
+          "slug": "dynamische-prijsengine",
+          "title": "Dynamische Prijsengine",
+          "description": "Een prijsinstrument dat prijzen aanpast op basis van vraag en concurrentie, +15% winst voor een reisbureau.",
+          "tags": ["Data-analyse", "Automatisering", "API"]
+        },
+        {
+          "slug": "crm-data-entry-automatisering",
+          "title": "CRM Data-entry Automatisering",
+          "description": "Workflow die klantinfo uit e-mails haalt en naar het CRM schrijft, goed voor 10+ uur tijdbesparing per week.",
+          "tags": ["Workflow", "CRM", "E-mail parsing"]
+        }
+      ]
+    },
+    "about": {
+      "title": "Over Mij",
+      "subtitle": "Ik ben een ontwikkelaar en strateeg met een passie voor het benutten van technologie om echte bedrijfsproblemen op te lossen. Mijn missie is om krachtige, intelligente automatisering te bouwen die bedrijven in staat stelt zich te concentreren op wat ze het beste doen.",
+      "resume_cta": "Bekijk mijn CV",
+      "socials": {
+        "linkedin": "https://linkedin.com/in/your-profile",
+        "github": "https://github.com/your-profile"
+      }
+    },
+    "contact": {
+      "title": "Samen Bouwen?",
+      "subtitle": "Klaar om je workflows te automatiseren en het volledige potentieel van je bedrijf te benutten? Neem contact op. We horen graag jouw uitdaging.",
+      "labels": {
+        "name": "Naam",
+        "email": "E-mail",
+        "message": "Waarmee kunnen we helpen?"
+      },
+      "cta": "Verstuur Bericht",
+      "submitting": "Versturen...",
+      "thank_you_title": "Bedankt!",
+      "thank_you_message": "Je bericht is verzonden. We nemen snel contact met je op.",
+      "send_another": "Nog een bericht sturen"
+    },
+    "footer": {
+      "rights": "Alle rechten voorbehouden."
+    }
+  },
+  "en": {
+    "common": {
+      "brand": "automai",
+      "tagline": "Empowering Local Businesses Through Intelligent Automation",
+      "language": "English",
+      "switch_to": "Switch to Dutch"
+    },
+    "nav": {
+      "about": "About Me",
+      "portfolio": "Portfolio",
+      "contact": "Contact"
+    },
+    "portfolio": {
+      "title": "Portfolio Projects",
+      "subtitle": "We deliver tangible results. Here are some of the solutions we've crafted for businesses like yours.",
+      "items": [
+        {
+          "slug": "automated-inventory-management",
+          "title": "Automated Inventory Management",
+          "description": "Developed a system that syncs online sales with warehouse inventory in real-time, reducing stockouts by 40%.",
+          "tags": ["E-commerce", "API Integration", "Real-time Sync"]
+        },
+        {
+          "slug": "ai-customer-support",
+          "title": "AI-Powered Customer Support",
+          "description": "Implemented a chatbot handling 80% of routine customer queries, improving response times and customer satisfaction.",
+          "tags": ["AI/ML", "Customer Service", "NLP"]
+        },
+        {
+          "slug": "dynamic-pricing-engine",
+          "title": "Dynamic Pricing Engine",
+          "description": "Created a pricing tool for a local travel agent that adjusts prices based on demand and competitor data, boosting profits by 15%.",
+          "tags": ["Data Analysis", "Automation", "API"]
+        },
+        {
+          "slug": "crm-data-entry-automatisering",
+          "title": "CRM Data Entry Automation",
+          "description": "Built a workflow that automatically extracts customer info from emails and populates the CRM, saving 10+ hours of manual work weekly.",
+          "tags": ["Workflow Automation", "CRM", "Email Parsing"]
+        }
+      ]
+    },
+    "about": {
+      "title": "About Me",
+      "subtitle": "I am a developer and strategist with a passion for leveraging technology to solve real-world business problems. My mission is to build powerful, intelligent automation that empowers businesses to focus on what they do best.",
+      "resume_cta": "View My Resume",
+      "socials": {
+        "linkedin": "https://linkedin.com/in/your-profile",
+        "github": "https://github.com/your-profile"
+      }
+    },
+    "contact": {
+      "title": "Let's Build Together",
+      "subtitle": "Ready to automate your workflows and unlock your business's full potential? Reach out to us. We're excited to learn about your challenges.",
+      "labels": {
+        "name": "Name",
+        "email": "Email",
+        "message": "How can we help?"
+      },
+      "cta": "Send Message",
+      "submitting": "Submitting...",
+      "thank_you_title": "Thank You!",
+      "thank_you_message": "Your message has been sent. We'll be in touch shortly.",
+      "send_another": "Send Another"
+    },
+    "footer": {
+      "rights": "All rights reserved."
+    }
+  }
+}
