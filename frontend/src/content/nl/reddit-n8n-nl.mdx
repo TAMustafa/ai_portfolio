@@ -10,37 +10,44 @@ Het handmatig bijhouden van deze gesprekken is tijdrovend, inconsistent en vaak 
 Dit project laat zien hoe ik n8n-automatisering + AI-analyse heb gebruikt om een ​​workflow te bouwen die continu financiële subreddits scant, door gebruikers gemelde problemen extraheert en bruikbare inzichten samenvat.
 
 ## Geautomatiseerde Reddit-monitoring met <a href="https://n8n.io/" target="_blank">n8n</a>
+
 Ik heb een workflow in n8n gebouwd die de volledige pijplijn automatiseert:
 
 1. Verzameling via meerdere bronnen
-Het systeem raadpleegt gelijktijdig meerdere subreddits, waaronder:
+   Het systeem raadpleegt gelijktijdig meerdere subreddits, waaronder:
+
 - **r/FinTech** → innovatieve inzichten in financiële technologie
 - **r/Banking** → traditionele bancaire uitdagingen
 - **r/PaymentProcessing** → operationele betalingsproblemen
 
 2. Gegevensverwerking
+
 - Samenvoegen en ontdubbelen: Combineert resultaten, verwijdert duplicaten en verouderde berichten.
 - Veldnormalisatie: Standaardiseert gegevens voor consistentie.
 - Intelligente filtering: richt zich op probleem-/oplossingsgerichte berichten.
 
 <Callout type="info" title="Filter voor relevante resultaten">
-Filters zorgen ervoor dat de resultaten recent zijn (≤ 3 dagen oud) en alleen berichten ophalen die de woorden 'probleem' of 'fout' in de tekst bevatten.
+  Filters zorgen ervoor dat de resultaten recent zijn (≤ 3 dagen oud) en alleen berichten ophalen
+  die de woorden 'probleem' of 'fout' in de tekst bevatten.
 </Callout>
 
 3. AI-gestuurde analyse
-Ik heb Anthropic Claude geïntegreerd om:
+   Ik heb Anthropic Claude geïntegreerd om:
+
 - De relevantie van elk bericht te beoordelen
 - Belangrijke problemen en voorgestelde oplossingen te identificeren
 - Inzichten samen te vatten in korte, bruikbare output
 - Opkomende trends in discussies te detecteren
 
 4. Gestructureerde output en opslag
-Resultaten worden geformatteerd met behulp van de outputparser van n8n en automatisch opgeslagen in Google Sheets voor:
+   Resultaten worden geformatteerd met behulp van de outputparser van n8n en automatisch opgeslagen in Google Sheets voor:
+
 - Een heldere, doorzoekbare structuur
 - Eenvoudig delen tussen teams
 - Een groeiende kennisbank met door gebruikers gerapporteerde fintech- en bancaire knelpunten
 
 ### Gebruikte technologien
+
 - **n8n**: Workflow-automatiseringsengine (cloud of zelfgehost)
 - **Reddit API**: Subreddit-zoekopdrachten en -filtering
 - **Claude (Anthropic)**: Analyse en samenvatting van natuurlijke taal

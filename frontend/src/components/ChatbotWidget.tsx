@@ -1,10 +1,11 @@
-import React, { useMemo, useRef, useState, useEffect } from 'react';
-import { MessageCircle, X, Send, BookOpen, Info } from 'lucide-react';
-import { useI18n } from '../i18n/I18nProvider';
+import React, { useMemo, useRef, useState, useEffect } from "react";
+import { MessageCircle, X, Send, BookOpen } from "lucide-react";
+import { useI18n } from "../i18n/I18nProvider";
+import type { RootDict, PortfolioItem, AboutValue } from "../i18n/types";
 
 // Types
 interface Message {
-  role: 'user' | 'assistant';
+  role: "user" | "assistant";
   content: string;
 }
 
@@ -13,20 +14,14 @@ function useKnowledgeBase() {
   const { dict, lang } = useI18n();
 
   const portfolioItems = useMemo(() => {
-    const items = (dict?.portfolio as any)?.items as Array<{
-      slug?: string;
-      title: string;
-      description: string;
-      tags: string[];
-    }> | undefined;
+    const root = dict as RootDict;
+    const items = root.portfolio?.items as PortfolioItem[] | undefined;
     return items ?? [];
   }, [dict]);
 
   const aboutValues = useMemo(() => {
-    const values = (dict?.about as any)?.values as Array<{
-      title: string;
-      description: string;
-    }> | undefined;
+    const root = dict as RootDict;
+    const values = root.about?.values as AboutValue[] | undefined;
     return values ?? [];
   }, [dict]);
 
@@ -37,7 +32,7 @@ function useKnowledgeBase() {
         p.title.toLowerCase().includes(q) ||
         p.description.toLowerCase().includes(q) ||
         p.tags.some((t) => t.toLowerCase().includes(q)) ||
-        (p.slug ?? '').toLowerCase().includes(q)
+        (p.slug ?? "").toLowerCase().includes(q)
       );
     });
     return results;
@@ -47,11 +42,12 @@ function useKnowledgeBase() {
     return portfolioItems;
   }
   function aboutSummary() {
-    const title = (dict?.about as any)?.title as string | undefined;
-    const subtitle = (dict?.about as any)?.subtitle as string | undefined;
+    const root = dict as RootDict;
+    const title = root.about?.title;
+    const subtitle = root.about?.subtitle;
     return {
-      title: title ?? 'About',
-      subtitle: subtitle ?? '',
+      title: title ?? "About",
+      subtitle: subtitle ?? "",
       values: aboutValues,
     };
   }
@@ -65,14 +61,17 @@ export default function ChatbotWidget() {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
     {
-      role: 'assistant',
-      content: t('chat.welcome') as string,
+      role: "assistant",
+      content: t("chat.welcome") as string,
     },
   ]);
-  const [input, setInput] = useState('');
+  const [input, setInput] = useState("");
   const scrollRef = useRef<HTMLDivElement>(null);
   const [loading, setLoading] = useState(false);
-  const [backendStatus, setBackendStatus] = useState<'unknown' | 'connected' | 'fallback'>('unknown');
+  const [backendStatus, setBackendStatus] = useState<"unknown" | "connected" | "fallback">(
+    "unknown",
+  );
+  const abortRef = useRef<AbortController | null>(null);
 
   useEffect(() => {
     if (isOpen && scrollRef.current) {
@@ -83,37 +82,59 @@ export default function ChatbotWidget() {
   // Refresh the initial assistant message when language changes
   useEffect(() => {
     setMessages((prev) => {
-      if (!prev.length) return prev;
+      if (prev.length === 0) return prev;
       const first = prev[0];
-      if (first.role !== 'assistant') return prev;
-      const localized = t('chat.welcome') as string;
+      const rest = prev.slice(1);
+      if (!first || first.role !== "assistant") return prev;
+      const localized = t("chat.welcome") as string;
       if (first.content === localized) return prev;
-      return [{ ...first, content: localized }, ...prev.slice(1)];
+      const updatedFirst: Message = { role: "assistant", content: localized };
+      return [updatedFirst, ...rest];
     });
   }, [lang, t]);
 
   // Detect backend health on mount to show status indicator
   useEffect(() => {
-    const API_BASE = (import.meta as any).env?.VITE_API_BASE as string | undefined;
-    const healthUrl = API_BASE ? `${API_BASE.replace(/\/$/, '')}/health` : '/api/health';
+    const API_BASE = import.meta.env.VITE_API_BASE as string | undefined;
+    const healthUrl = API_BASE ? `${API_BASE.replace(/\/$/, "")}/health` : "/api/health";
     fetch(healthUrl)
       .then((r) => {
-        if (r.ok) setBackendStatus('connected');
-        else setBackendStatus('fallback');
+        if (r.ok) setBackendStatus("connected");
+        else setBackendStatus("fallback");
       })
-      .catch(() => setBackendStatus('fallback'));
+      .catch(() => setBackendStatus("fallback"));
   }, []);
 
-  function formatProjectsList(projects: Array<{ slug?: string; title: string; description: string; tags: string[] }>) {
-    if (!projects.length) return 'No matching projects found.';
+  // Abort any in-flight request on unmount or when the chat closes
+  useEffect(() => {
+    return () => {
+      if (abortRef.current) {
+        abortRef.current.abort();
+        abortRef.current = null;
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!isOpen && abortRef.current) {
+      abortRef.current.abort();
+      abortRef.current = null;
+      setLoading(false);
+    }
+  }, [isOpen]);
+
+  function formatProjectsList(
+    projects: Array<{ slug?: string; title: string; description: string; tags: string[] }>,
+  ) {
+    if (!projects.length) return "No matching projects found.";
     return projects
       .slice(0, 6)
       .map((p) => {
         const link = p.slug ? `/${lang}/project/${p.slug}` : undefined;
-        const tags = p.tags.join(', ');
-        return `${p.title}${link ? ` → ${link}` : ''}\n- ${p.description}\n- Tags: ${tags}`;
+        const tags = p.tags.join(", ");
+        return `${p.title}${link ? ` → ${link}` : ""}\n- ${p.description}\n- Tags: ${tags}`;
       })
-      .join('\n\n');
+      .join("\n\n");
   }
 
   function handleUserQuery(query: string): string {
@@ -123,9 +144,7 @@ export default function ChatbotWidget() {
     // About/experience intents
     if (/(about|experience|who\s+are\s+you|what\s+do\s+you\s+do)/.test(lower)) {
       const about = aboutSummary();
-      const values = about.values
-        .map((v) => `- ${v.title}: ${v.description}`)
-        .join('\n');
+      const values = about.values.map((v) => `- ${v.title}: ${v.description}`).join("\n");
       return `About — ${about.title}\n${about.subtitle}\n\nCore values:\n${values}`;
     }
 
@@ -147,44 +166,52 @@ export default function ChatbotWidget() {
   async function send() {
     const q = input.trim();
     if (!q) return;
-    const userMsg: Message = { role: 'user', content: q };
+    // Cancel any previous in-flight streaming request
+    if (abortRef.current) {
+      abortRef.current.abort();
+      abortRef.current = null;
+    }
+    const controller = new AbortController();
+    abortRef.current = controller;
+    const userMsg: Message = { role: "user", content: q };
     setMessages((prev) => [...prev, userMsg]);
-    setInput('');
+    setInput("");
     setLoading(true);
     try {
       // Try backend LLM first
-      const API_BASE = (import.meta as any).env?.VITE_API_BASE as string | undefined;
-      const endpoint = API_BASE ? `${API_BASE.replace(/\/$/, '')}/chat` : '/api/chat';
+      const API_BASE = import.meta.env.VITE_API_BASE as string | undefined;
+      const endpoint = API_BASE ? `${API_BASE.replace(/\/$/, "")}/chat` : "/api/chat";
       const res = await fetch(endpoint, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ messages: [...messages, userMsg], lang }),
+        signal: controller.signal,
       });
 
       if (res.ok && res.body) {
-        setBackendStatus('connected');
+        setBackendStatus("connected");
         const reader = res.body.getReader();
         const decoder = new TextDecoder();
         let done = false;
 
         // Add a placeholder for the assistant's message
-        setMessages((prev) => [...prev, { role: 'assistant', content: '' }]);
+        setMessages((prev) => [...prev, { role: "assistant", content: "" }]);
 
         while (!done) {
           const { value, done: readerDone } = await reader.read();
           done = readerDone;
           const chunk = decoder.decode(value, { stream: true });
-          
+
           // Process SSE data chunks
-          const lines = chunk.split('\n\n').filter(Boolean);
+          const lines = chunk.split("\n\n").filter(Boolean);
           for (const line of lines) {
-            if (line.startsWith('data: ')) {
+            if (line.startsWith("data: ")) {
               try {
                 const data = JSON.parse(line.substring(5));
                 if (data.content) {
                   setMessages((prev) => {
                     const lastMsg = prev[prev.length - 1];
-                    if (lastMsg && lastMsg.role === 'assistant') {
+                    if (lastMsg && lastMsg.role === "assistant") {
                       // Create a new message object with the updated content
                       const updatedMsg = { ...lastMsg, content: lastMsg.content + data.content };
                       // Return a new array with the new message object
@@ -195,35 +222,44 @@ export default function ChatbotWidget() {
                 }
                 // You could also handle the final `snippets` data here if needed
               } catch (e) {
-                console.error('Error parsing stream data', e);
+                console.error("Error parsing stream data", e);
               }
             }
           }
         }
       } else {
-        setBackendStatus('fallback');
+        setBackendStatus("fallback");
         // Fallback for non-streaming errors or if the key is missing
         const fallback = handleUserQuery(q);
-        setMessages((prev) => [...prev, { role: 'assistant', content: fallback }]);
+        setMessages((prev) => [...prev, { role: "assistant", content: fallback }]);
       }
     } catch (e) {
-      setBackendStatus('fallback');
-      const fallback = handleUserQuery(q);
-      setMessages((prev) => [...prev, { role: 'assistant', content: fallback }]);
+      if ((e as any)?.name === "AbortError") {
+        // Request was cancelled; do not add a fallback message
+      } else {
+        setBackendStatus("fallback");
+        const fallback = handleUserQuery(q);
+        setMessages((prev) => [...prev, { role: "assistant", content: fallback }]);
+      }
     } finally {
       setLoading(false);
+      // Clear the controller if it is the active one
+      if (abortRef.current === controller) {
+        abortRef.current = null;
+      }
     }
   }
 
   function onKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
-    if (e.key === 'Enter' && !e.shiftKey) {
+    if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       send();
     }
   }
 
   return (
-    <div className="fixed bottom-4 right-4 z-50">{/* Container for toggle and panel */}
+    <div className="fixed bottom-4 right-4 z-50">
+      {/* Container for toggle and panel */}
       {/* Toggle Button */}
       {!isOpen && (
         <button
@@ -250,27 +286,27 @@ export default function ChatbotWidget() {
               <div className="flex items-center gap-1 text-xs">
                 <span
                   className={
-                    'inline-block w-2.5 h-2.5 rounded-full ' +
-                    (backendStatus === 'connected'
-                      ? 'bg-green-500'
-                      : backendStatus === 'fallback'
-                      ? 'bg-ink/30'
-                      : 'bg-yellow-500')
+                    "inline-block w-2.5 h-2.5 rounded-full " +
+                    (backendStatus === "connected"
+                      ? "bg-green-500"
+                      : backendStatus === "fallback"
+                        ? "bg-ink/30"
+                        : "bg-yellow-500")
                   }
                   title={
-                    backendStatus === 'connected'
-                      ? 'LLM connected'
-                      : backendStatus === 'fallback'
-                      ? 'Fallback mode (local answers)'
-                      : 'Checking backend…'
+                    backendStatus === "connected"
+                      ? "LLM connected"
+                      : backendStatus === "fallback"
+                        ? "Fallback mode (local answers)"
+                        : "Checking backend…"
                   }
                 />
                 <span className="muted">
-                  {backendStatus === 'connected'
-                    ? 'LLM connected'
-                    : backendStatus === 'fallback'
-                    ? 'fallback mode'
-                    : 'checking…'}
+                  {backendStatus === "connected"
+                    ? "LLM connected"
+                    : backendStatus === "fallback"
+                      ? "fallback mode"
+                      : "checking…"}
                 </span>
               </div>
               <button
@@ -286,13 +322,16 @@ export default function ChatbotWidget() {
           {/* Messages */}
           <div ref={scrollRef} className="px-4 py-3 space-y-3 h-[calc(100%-112px)] overflow-y-auto">
             {messages.map((m, idx) => (
-              <div key={idx} className={m.role === 'user' ? 'flex justify-end' : 'flex justify-start'}>
+              <div
+                key={idx}
+                className={m.role === "user" ? "flex justify-end" : "flex justify-start"}
+              >
                 <div
                   className={
-                    'max-w-[85%] whitespace-pre-wrap rounded-lg px-3 py-2 text-sm ' +
-                    (m.role === 'user'
-                      ? 'bg-indigo-600 text-white'
-                      : 'bg-surface text-ink border border-border')
+                    "max-w-[85%] whitespace-pre-wrap rounded-lg px-3 py-2 text-sm " +
+                    (m.role === "user"
+                      ? "bg-indigo-600 text-white"
+                      : "bg-surface text-ink border border-border")
                   }
                 >
                   {m.content}
@@ -307,7 +346,6 @@ export default function ChatbotWidget() {
                 </div>
               </div>
             )}
-          
           </div>
 
           {/* Input */}

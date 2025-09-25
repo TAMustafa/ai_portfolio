@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { Bot, Globe } from 'lucide-react';
-import { motion } from 'framer-motion';
-import { useI18n } from '../i18n/I18nProvider';
+import React, { useState } from "react";
+import { Bot, Globe } from "lucide-react";
+import { motion } from "framer-motion";
+import { useI18n } from "../i18n/I18nProvider";
 
 export interface HeaderProps {
   activeSection: string;
@@ -12,9 +12,9 @@ export function Header({ activeSection, scrollToSection }: HeaderProps) {
   const { t, lang, setLang } = useI18n();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navItems = [
-    { key: 'about', label: t('nav.about') },
-    { key: 'portfolio', label: t('nav.portfolio') },
-    { key: 'contact', label: t('nav.contact') },
+    { key: "about", label: t("nav.about") },
+    { key: "portfolio", label: t("nav.portfolio") },
+    { key: "contact", label: t("nav.contact") },
   ];
 
   return (
@@ -23,7 +23,7 @@ export function Header({ activeSection, scrollToSection }: HeaderProps) {
         <div className="flex items-center justify-between h-20">
           <div className="flex items-center">
             <Bot className="h-8 w-8 text-indigo-400" />
-            <span className="ml-3 text-2xl font-bold tracking-tighter">{t('common.brand')}</span>
+            <span className="ml-3 text-2xl font-bold tracking-tighter">{t("common.brand")}</span>
           </div>
           <nav className="hidden md:flex items-center space-x-6">
             {navItems.map((item) => (
@@ -31,7 +31,7 @@ export function Header({ activeSection, scrollToSection }: HeaderProps) {
                 key={item.key}
                 onClick={() => scrollToSection(item.key)}
                 className={`text-sm font-medium transition-colors duration-300 relative ${
-                  activeSection === item.key ? 'text-link' : 'muted hover:text-link'
+                  activeSection === item.key ? "text-link" : "muted hover:text-link"
                 }`}
               >
                 {item.label}
@@ -44,10 +44,10 @@ export function Header({ activeSection, scrollToSection }: HeaderProps) {
               </button>
             ))}
             <button
-              onClick={() => setLang(lang === 'nl' ? 'en' : 'nl')}
+              onClick={() => setLang(lang === "nl" ? "en" : "nl")}
               className="p-2 rounded-md muted hover:text-ink hover:bg-surface transition-colors"
-              aria-label={lang === 'nl' ? t('common.switch_to') : t('common.switch_to')}
-              title={lang === 'nl' ? t('common.switch_to') : t('common.switch_to')}
+              aria-label={lang === "nl" ? t("common.switch_to") : t("common.switch_to")}
+              title={lang === "nl" ? t("common.switch_to") : t("common.switch_to")}
             >
               <Globe className="h-5 w-5" />
             </button>
@@ -62,13 +62,17 @@ export function Header({ activeSection, scrollToSection }: HeaderProps) {
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 strokeWidth="2"
-                d={isMenuOpen ? 'M6 18L18 6M6 6l12 12' : 'M4 6h16M4 12h16M4 18h16'}
+                d={isMenuOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"}
               />
             </svg>
           </button>
         </div>
         {isMenuOpen && (
-          <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="md:hidden pb-4">
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="md:hidden pb-4"
+          >
             {navItems.map((item) => (
               <button
                 key={item.key}
@@ -83,12 +87,15 @@ export function Header({ activeSection, scrollToSection }: HeaderProps) {
             ))}
             <button
               onClick={() => {
-                setLang(lang === 'nl' ? 'en' : 'nl');
+                setLang(lang === "nl" ? "en" : "nl");
                 setIsMenuOpen(false);
               }}
               className="mt-2 block w-full text-left py-2 px-4 text-sm muted hover:bg-surface hover:text-link rounded-md"
             >
-              <span className="inline-flex items-center gap-2"><Globe className="h-4 w-4" />{t('common.switch_to')}</span>
+              <span className="inline-flex items-center gap-2">
+                <Globe className="h-4 w-4" />
+                {t("common.switch_to")}
+              </span>
             </button>
           </motion.div>
         )}

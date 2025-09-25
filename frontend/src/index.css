@@ -13,7 +13,9 @@
   --color-link-hover: #0756b3;
 
   /* Font family */
-  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif;
+  --font-sans:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, "Apple Color Emoji",
+    "Segoe UI Emoji", "Noto Color Emoji", sans-serif;
 }
 
 @layer base {
@@ -42,8 +44,12 @@
 }
 
 @layer utilities {
-  .animation-delay-2000 { animation-delay: 2s; }
-  .animation-delay-4000 { animation-delay: 4s; }
+  .animation-delay-2000 {
+    animation-delay: 2s;
+  }
+  .animation-delay-4000 {
+    animation-delay: 4s;
+  }
 }
 
 /* Smoothing */
@@ -54,11 +60,14 @@ body {
 
 /* App-level scrolling: hide body scroll to avoid double scrollbars.
    The app uses an internal scroll container (#scroll-container) in App.tsx. */
-html, body, #root {
+html,
+body,
+#root {
   height: 100%;
 }
-html, body {
-  overflow: hidden;        /* prevent outer scrollbar */
+html,
+body {
+  overflow: hidden; /* prevent outer scrollbar */
   overscroll-behavior: none;
 }
 /* Avoid accidental horizontal scrollbar */
@@ -69,10 +78,20 @@ html, body {
 /* Removed unused grid background utility */
 
 @keyframes blob {
-  0% { transform: translate(0px, 0px) scale(1); }
-  33% { transform: translate(30px, -50px) scale(1.1); }
-  66% { transform: translate(-20px, 20px) scale(0.9); }
-  100% { transform: translate(0px, 0px) scale(1); }
+  0% {
+    transform: translate(0px, 0px) scale(1);
+  }
+  33% {
+    transform: translate(30px, -50px) scale(1.1);
+  }
+  66% {
+    transform: translate(-20px, 20px) scale(0.9);
+  }
+  100% {
+    transform: translate(0px, 0px) scale(1);
+  }
 }
 
-.animate-blob { animation: blob 7s infinite; }
+.animate-blob {
+  animation: blob 7s infinite;
+}

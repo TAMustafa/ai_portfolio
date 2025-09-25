@@ -3,6 +3,7 @@
 A modern, multilingual single-page site with animated sections, language-aware routing, and MDX-backed project pages.
 
 ## Tech Stack
+
 - React 18 + TypeScript
 - Vite 5
 - Tailwind CSS 3 (+ Typography plugin)
@@ -14,29 +15,35 @@ A modern, multilingual single-page site with animated sections, language-aware r
 
 ## Quickstart
 
-1) Install dependencies (project root)
+1. Install dependencies (project root)
+
 ```bash
 npm install
 ```
 
-2) Start the backend API (Terminal A)
+2. Start the backend API (Terminal A)
+
 ```bash
 export OPENAI_API_KEY="your-openai-api-key"   # macOS/Linux example
 npm run server
 ```
+
 Health check: `curl http://localhost:3001/api/health`
 
-3) Start the frontend (Terminal B)
+3. Start the frontend (Terminal B)
+
 ```bash
 npm run dev
 ```
 
 Open the app at:
+
 - Home (redirects): http://localhost:5173/
 - Dutch home: http://localhost:5173/nl
 - English home: http://localhost:5173/en
 
-4) Build & preview production
+4. Build & preview production
+
 ```bash
 npm run build
 npm run preview
@@ -69,33 +76,36 @@ npm run preview
 
 Create or edit project pages per language using MDX.
 
-1) Create MDX files per language
+1. Create MDX files per language
    - Dutch: `frontend/src/content/nl/<slug>.mdx`
    - English: `frontend/src/content/en/<slug>.mdx`
 
-2) Add frontmatter for portfolio cards (title, description, tags)
+2. Add frontmatter for portfolio cards (title, description, tags)
+
    ```mdx
    ---
    title: "Geautomatiseerd Voorraadbeheer"
    description: "Realtime synchronisatie tussen verkoopkanalen en magazijnvoorraad."
    tags: ["E-commerce", "API-integratie", "Realtime"]
    ---
+
    <ProjectLayout
      title="Geautomatiseerd Voorraadbeheer"
      subtitle="Realtime synchronisatie tussen verkoopkanalen en magazijnvoorraad"
      tags={["E-commerce", "API-integratie", "Realtime"]}
      heroImageUrl="https://images.unsplash.com/photo-..."
    >
-   ...
+     ...
    </ProjectLayout>
    ```
 
-3) Use the provided MDX components without imports
+3. Use the provided MDX components without imports
    - `ProjectLayout`: renders a hero-like header + tags + content area
    - `Callout`: brand-styled callout block (`info | success | warning | danger`)
 
 Example MDX:
-```mdx
+
+````mdx
 <ProjectLayout
   title="Geautomatiseerd Voorraadbeheer"
   subtitle="Realtime synchronisatie tussen verkoopkanalen en magazijnvoorraad"
@@ -106,15 +116,17 @@ Example MDX:
 Introductie van het project...
 
 <Callout type="warning" title="Belangrijk knelpunt">
-Parallelle verkopen veroorzaakten inconsistenties binnen minuten.
+  Parallelle verkopen veroorzaakten inconsistenties binnen minuten.
 </Callout>
 
 ## Oplossing
+
 Tekst en code…
 
 ```ts
 // Voorbeeld code
 ```
+````
 
 </ProjectLayout>
 ```
@@ -175,20 +187,23 @@ This project splits into a static frontend (S3/CloudFront) and a serverless back
 
 ### Frontend: S3 + CloudFront
 
-1) Build the app
+1. Build the app
+
    ```bash
    npm run build
    ```
+
    This produces the static site in `dist/`.
 
-2) Create an S3 bucket (e.g., `my-portfolio-site`) and enable static website hosting (or use CloudFront default root object).
+2. Create an S3 bucket (e.g., `my-portfolio-site`) and enable static website hosting (or use CloudFront default root object).
 
-3) Upload `dist/` to S3 (via AWS CLI or console)
+3. Upload `dist/` to S3 (via AWS CLI or console)
+
    ```bash
    aws s3 sync dist/ s3://my-portfolio-site --delete
    ```
 
-4) Put CloudFront in front of S3 for HTTPS and caching
+4. Put CloudFront in front of S3 for HTTPS and caching
    - Origin: the S3 bucket (static website endpoint or S3 origin)
    - Default Root Object: `index.html`
    - Error Responses (for SPA routing): map 403/404 to `/index.html` with 200 status
@@ -205,16 +220,18 @@ Minimal outline using `@vendia/serverless-express`:
 
 ```js
 // lambda.js
-import serverlessExpress from '@vendia/serverless-express';
-import app from './express-app.mjs'; // export the Express app from server/server.mjs after refactor
+import serverlessExpress from "@vendia/serverless-express";
+import app from "./express-app.mjs"; // export the Express app from server/server.mjs after refactor
 
 export const handler = serverlessExpress({ app });
 ```
 
 Environment variables:
+
 - `OPENAI_API_KEY`: stored in Lambda env vars or AWS Secrets Manager
 
 API Gateway:
+
 - Create a REST/HTTP API that routes `POST /chat` to the Lambda handler
 - Enable CORS to allow your CloudFront domain (e.g., `https://www.example.com`)
 - Optional: add `POST /reindex` for content refresh
@@ -233,6 +250,7 @@ Deploy the resulting `dist/` to S3. The chat widget will call `${VITE_API_BASE}/
 ### CORS
 
 On API Gateway (or Lambda if returning manually):
+
 - Allow `Access-Control-Allow-Origin: https://your-frontend-domain`
 - Allow `POST` and `OPTIONS` methods
 - Allow `Content-Type` header
@@ -244,14 +262,17 @@ This repo is optimized for Google Cloud. Use Cloud Run for the backend API and e
 ### Backend: Cloud Run (Express LLM API)
 
 Files:
+
 - `server/Dockerfile` — container image for the Express server
 - `server/.dockerignore` — excludes unnecessary files from the image
 
 Prerequisites:
+
 - Install and initialize the gcloud CLI
 - Enable services: Cloud Run, Artifact Registry, Cloud Build
 
 Build & deploy (one-time setup for Artifact Registry):
+
 ```bash
 gcloud auth login
 gcloud config set project <YOUR_PROJECT_ID>
@@ -284,6 +305,7 @@ Take note of the Cloud Run URL (e.g., `https://portfolio-api-xxxx-uc.a.run.app`)
 ### Frontend: Cloud Storage + Cloud CDN (or Firebase Hosting)
 
 Option A — Cloud Storage + Cloud CDN:
+
 ```bash
 # Build frontend
 VITE_API_BASE="https://portfolio-api-xxxx-uc.a.run.app" npm run build
@@ -299,6 +321,7 @@ gsutil iam ch allUsers:objectViewer gs://my-portfolio-site
 For HTTPS, custom domain, and SPA routing, place Cloud CDN in front of the bucket via an HTTP(S) Load Balancer (set default object `index.html` and map 404 to `index.html`).
 
 Option B — Firebase Hosting (easier HTTPS + CDN):
+
 ```bash
 npm install -g firebase-tools
 firebase login

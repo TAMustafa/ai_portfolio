@@ -27,7 +27,7 @@
         "slug": "locaal-rag-nl",
         "title": "Een veilig en lokaal LLM / RAG systeem",
         "description": "In de huidige datagedreven wereld staan ​​organisaties voor twee hardnekkige uitdagingen: het beheren van enorme hoeveelheden verspreide informatie en het beschermen van gevoelige gegevens tegen het verlaten van beveiligde omgevingen.",
-        "tags": ["ChromaDB", "RAG", "Embeddings", "Langchain"]
+        "tags": ["ChromaDB", "RAG", "Ollama", "Langchain"]
       },
       {
         "slug": "reddit-n8n-nl",

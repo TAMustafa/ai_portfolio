@@ -13,16 +13,18 @@ Traditionele zoekmethoden schieten hier meestal tekort: ze retourneren ruwe docu
 Dit project pakt deze problemen aan door lokale Large Language Models (LLM's) te combineren met Retrieval-Augmented Generation (RAG) – waardoor een systeem ontstaat dat zowel privacy-eerlijk als zeer nauwkeurig is.
 
 ## De oplossing: Lokale LLM's + RAG
+
 Dit project laat zien hoe je een volledig lokale RAG-pipeline bouwt die ervoor zorgt dat alle gegevensverwerking intern plaatsvindt.
 
 <Callout type="success" title="Data Security:">
-Door een LLM lokaal uit te voeren met tools zoals **Ollama**, blijven gevoelige 
-gegevens binnen de infrastructuur van de organisatie – zonder externe blootstelling. 
+  Door een LLM lokaal uit te voeren met tools zoals **Ollama**, blijven gevoelige gegevens binnen de
+  infrastructuur van de organisatie – zonder externe blootstelling.
 </Callout>
 
 **Contextbewuste antwoorden:** De **RAG-pipeline** haalt relevante informatie op uit een lokale vectordatabase (ChromaDB) en voert deze in de LLM in, wat zorgt voor nauwkeurige, gecontextualiseerde antwoorden met duidelijke bronverwijzingen.
 
 ### Gebruikte technologie
+
 Dit project bood een praktische ervaring met verschillende belangrijke technologieën:
 
 - **<a href="https://fastapi.tiangolo.com/" target="_blank">FastAPI</a>:** Voor de backend-pipeline en het bedienen van de RAG-workflow.
@@ -33,7 +35,9 @@ Dit project bood een praktische ervaring met verschillende belangrijke technolog
 - **Frontend:** React + TypeScript voor een overzichtelijke, interactieve chatinterface met bronvermeldingen.
 
 ### Een praktisch voorbeeld
+
 Stel je een medewerker voor die op zoek is naar een detail in het beleidshandboek van het bedrijf. In plaats van handmatig te zoeken:
+
 - Stelt hij/zij een vraag in natuurlijke taal.
 - Het systeem haalt de meest relevante stukken op uit de documentendatabase.
 - De LLM genereert een beknopt, gedocumenteerd antwoord.
@@ -41,16 +45,20 @@ Stel je een medewerker voor die op zoek is naar een detail in het beleidshandboe
 Deze workflow bespaart tijd, verbetert de nauwkeurigheid en bouwt vertrouwen op door te laten zien waar het antwoord vandaan komt.
 
 ### Waarom dit belangrijk is
+
 - Privacy en compliance: Houdt bedrijfseigen gegevens binnen het bedrijfsnetwerk.
 - Vertrouwen: Antwoorden zijn gebaseerd op daadwerkelijke documenten met bronvermeldingen.
 - Flexibiliteit: Wissel modellen uit, breid documenttypen uit of schaal eenvoudig.
 
-**Klaar voor de praktijk: Al inzetbaar voor kennisbeheer, beleidsopzoekingen of onderzoeksworkflows.
+\*\*Klaar voor de praktijk: Al inzetbaar voor kennisbeheer, beleidsopzoekingen of onderzoeksworkflows.
 
-<img src="/images/query-processing.png" alt="Query Processing" width="800"/>
+<img src="/images/query-processing.png" alt="Query Processing" width="800" />
 
 <Callout type="info" title="Source Code">
-The entire source code is on my <a href="https://github.com/TAMustafa/LangchainRAG_Streamlit/tree/main" target="_blank">Github</a>
+  The entire source code is on my{" "}
+  <a href="https://github.com/TAMustafa/LangchainRAG_Streamlit/tree/main" target="_blank">
+    Github
+  </a>
 </Callout>
 
 </ProjectLayout>

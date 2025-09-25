@@ -1,5 +1,5 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React from "react";
+import { motion } from "framer-motion";
 
 type Props = {
   activeSection: string;
@@ -22,7 +22,7 @@ export default function ScrollDots({ activeSection, sections, onSelect }: Props)
             <motion.span
               layout
               className={`block rounded-full transition-colors duration-300 ${
-                isActive ? 'bg-teal-400' : 'bg-gray-600 group-hover:bg-teal-300'
+                isActive ? "bg-teal-400" : "bg-gray-600 group-hover:bg-teal-300"
               }`}
               style={{ width: isActive ? 12 : 8, height: isActive ? 12 : 8 }}
             />

@@ -1,9 +1,9 @@
-import React, { createContext, useContext, useEffect, useMemo, useState } from 'react';
-import i18next, { Resource } from 'i18next';
-import { initReactI18next, useTranslation } from 'react-i18next';
-import type { Lang, TranslationDict } from './types';
-import nl from './nl.json';
-import en from './en.json';
+import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
+import i18next, { type Resource } from "i18next";
+import { initReactI18next, useTranslation } from "react-i18next";
+import type { Lang, TranslationDict } from "./types";
+import nl from "./nl.json";
+import en from "./en.json";
 
 interface I18nContextValue {
   lang: Lang;
@@ -12,29 +12,27 @@ interface I18nContextValue {
   dict: TranslationDict;
 }
 
-const I18N_STORAGE_KEY = 'app.lang';
-const DEFAULT_LANG: Lang = 'nl';
-const NS = 'translation';
+const I18N_STORAGE_KEY = "app.lang";
+const DEFAULT_LANG: Lang = "nl";
+const NS = "translation";
 
 // Prepare resources for i18next from the existing translations.json shape
 const resources: Resource = {
-  nl: { [NS]: nl as any },
-  en: { [NS]: en as any },
+  nl: { [NS]: nl as unknown as TranslationDict },
+  en: { [NS]: en as unknown as TranslationDict },
 };
 
 // Initialize i18next once (module scope)
 if (!i18next.isInitialized) {
-  i18next
-    .use(initReactI18next)
-    .init({
-      resources,
-      lng: DEFAULT_LANG,
-      fallbackLng: 'en',
-      ns: [NS],
-      defaultNS: NS,
-      interpolation: { escapeValue: false },
-      returnNull: false,
-    });
+  i18next.use(initReactI18next).init({
+    resources,
+    lng: DEFAULT_LANG,
+    fallbackLng: "en",
+    ns: [NS],
+    defaultNS: NS,
+    interpolation: { escapeValue: false },
+    returnNull: false,
+  });
 }
 
 const I18nContext = createContext<I18nContextValue | undefined>(undefined);
@@ -42,7 +40,10 @@ const I18nContext = createContext<I18nContextValue | undefined>(undefined);
 export function I18nProvider({ children }: { children: React.ReactNode }) {
   // Persist language in localStorage (same key as before)
   const [lang, setLangState] = useState<Lang>(() => {
-    const saved = typeof window !== 'undefined' ? (localStorage.getItem(I18N_STORAGE_KEY) as Lang | null) : null;
+    const saved =
+      typeof window !== "undefined"
+        ? (localStorage.getItem(I18N_STORAGE_KEY) as Lang | null)
+        : null;
     return saved ?? (i18next.language as Lang) ?? DEFAULT_LANG;
   });
 
@@ -55,7 +56,7 @@ export function I18nProvider({ children }: { children: React.ReactNode }) {
 
   const setLang = (value: Lang) => {
     setLangState(value);
-    if (typeof window !== 'undefined') {
+    if (typeof window !== "undefined") {
       localStorage.setItem(I18N_STORAGE_KEY, value);
     }
   };
@@ -74,27 +75,31 @@ export function I18nProvider({ children }: { children: React.ReactNode }) {
 
   // Side effects: <html lang> and document title from brand
   useEffect(() => {
-    if (typeof document !== 'undefined') {
+    if (typeof document !== "undefined") {
       document.documentElement.lang = lang;
-      const brand = rt('common.brand');
-      if (brand && typeof brand === 'string') {
+      const brand = rt("common.brand");
+      if (brand && typeof brand === "string") {
         document.title = `${brand} — Portfolio`;
       }
     }
   }, [lang, rt]);
 
-  const value = useMemo<I18nContextValue>(() => ({
-    lang,
-    setLang,
-    dict,
-    t: (path: string) => rt(path),
-  }), [lang, dict, rt]);
+  const value = useMemo<I18nContextValue>(
+    () => ({
+      lang,
+      setLang,
+      dict,
+      t: (path: string) => rt(path),
+    }),
+    [lang, dict, rt],
+  );
 
   return <I18nContext.Provider value={value}>{children}</I18nContext.Provider>;
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export function useI18n() {
   const ctx = useContext(I18nContext);
-  if (!ctx) throw new Error('useI18n must be used within I18nProvider');
+  if (!ctx) throw new Error("useI18n must be used within I18nProvider");
   return ctx;
 }

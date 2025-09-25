@@ -12,15 +12,18 @@ Traditional search methods usually fail here: they return raw documents without 
 This project addresses these issues by combining local Large Language Models (LLMs) with Retrieval-Augmented Generation (RAG) — creating a system that is both privacy-first and highly accurate.
 
 ## The Solution: Local LLMs + RAG
+
 This project demonstrates how to build a fully local RAG pipeline that ensures all data processing happens internally.
 
 <Callout type="success" title="Data Security:">
-By running an LLM locally with tools like **Ollama**, sensitive data remains inside the organization’s infrastructure — no external exposure.
+  By running an LLM locally with tools like **Ollama**, sensitive data remains inside the
+  organization’s infrastructure — no external exposure.
 </Callout>
 
 **Context Aware Answers:** The **RAG pipeline** retrieves relevant information from a local vector database (ChromaDB) and feeds it into the LLM, ensuring precise, contextualized responses with clear source references.
 
 ### Technology Used
+
 This project provided a hands-on experience using several key technologies:
 
 - **<a href="https://fastapi.tiangolo.com/" target="_blank">FastAPI</a>:** For the backend pipeline and serving the RAG workflow.
@@ -31,7 +34,9 @@ This project provided a hands-on experience using several key technologies:
 - **Frontend:** React + TypeScript for a clean, interactive chat interface with source citations.
 
 ### A Practical Example
+
 Imagine an employee looking for a detail in the company’s policy handbook. Instead of browsing manually:
+
 - They ask a question in natural language.
 - The system retrieves the most relevant chunks from the document database.
 - The LLM generates a concise, sourced answer.
@@ -39,16 +44,20 @@ Imagine an employee looking for a detail in the company’s policy handbook. Ins
 This workflow saves time, improves accuracy, and builds trust by showing where the answer came from.
 
 ### Why This Matters
+
 - Privacy & Compliance: Keeps proprietary data inside the company network.
 - Trust: Answers are grounded in actual documents with citations.
 - Flexibility: Swap models, expand document types, or scale easily.
 
 **Real-World Ready**: Already deployable for knowledge management, policy lookup, or research workflows.
 
-<img src="/images/query-processing.png" alt="Query Processing" width="800"/>
+<img src="/images/query-processing.png" alt="Query Processing" width="800" />
 
 <Callout type="info" title="Explore the Code">
-The full project is open-source and available on my <a href="https://github.com/TAMustafa/LangchainRAG_Streamlit/tree/main" target="_blank">Github</a>
+  The full project is open-source and available on my{" "}
+  <a href="https://github.com/TAMustafa/LangchainRAG_Streamlit/tree/main" target="_blank">
+    Github
+  </a>
 </Callout>
 
 </ProjectLayout>
