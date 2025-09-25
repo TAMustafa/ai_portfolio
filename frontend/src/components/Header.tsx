@@ -18,7 +18,7 @@ export function Header({ activeSection, scrollToSection }: HeaderProps) {
   ];
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-gray-900/80 backdrop-blur-sm shadow-md shadow-gray-900/20">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-paper/80 backdrop-blur-sm shadow-md border-b border-border">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           <div className="flex items-center">
@@ -31,15 +31,13 @@ export function Header({ activeSection, scrollToSection }: HeaderProps) {
                 key={item.key}
                 onClick={() => scrollToSection(item.key)}
                 className={`text-sm font-medium transition-colors duration-300 relative ${
-                  activeSection === item.key
-                    ? 'text-indigo-400'
-                    : 'text-gray-300 hover:text-indigo-400'
+                  activeSection === item.key ? 'text-link' : 'muted hover:text-link'
                 }`}
               >
                 {item.label}
                 {activeSection === item.key && (
                   <motion.div
-                    className="absolute bottom-[-8px] left-0 right-0 h-0.5 bg-indigo-400"
+                    className="absolute bottom-[-8px] left-0 right-0 h-0.5 bg-link"
                     layoutId="underline"
                   />
                 )}
@@ -47,7 +45,7 @@ export function Header({ activeSection, scrollToSection }: HeaderProps) {
             ))}
             <button
               onClick={() => setLang(lang === 'nl' ? 'en' : 'nl')}
-              className="p-2 rounded-md text-gray-300 hover:text-white hover:bg-gray-700 transition-colors"
+              className="p-2 rounded-md muted hover:text-ink hover:bg-surface transition-colors"
               aria-label={lang === 'nl' ? t('common.switch_to') : t('common.switch_to')}
               title={lang === 'nl' ? t('common.switch_to') : t('common.switch_to')}
             >
@@ -56,7 +54,7 @@ export function Header({ activeSection, scrollToSection }: HeaderProps) {
           </nav>
           <button
             onClick={() => setIsMenuOpen((v) => !v)}
-            className="md:hidden p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700"
+            className="md:hidden p-2 rounded-md muted hover:text-ink hover:bg-surface"
             aria-label="Toggle menu"
           >
             <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -78,7 +76,7 @@ export function Header({ activeSection, scrollToSection }: HeaderProps) {
                   scrollToSection(item.key);
                   setIsMenuOpen(false);
                 }}
-                className="block w-full text-left py-2 px-4 text-sm text-gray-300 hover:bg-gray-800 hover:text-indigo-400 rounded-md"
+                className="block w-full text-left py-2 px-4 text-sm muted hover:bg-surface hover:text-link rounded-md"
               >
                 {item.label}
               </button>
@@ -88,7 +86,7 @@ export function Header({ activeSection, scrollToSection }: HeaderProps) {
                 setLang(lang === 'nl' ? 'en' : 'nl');
                 setIsMenuOpen(false);
               }}
-              className="mt-2 block w-full text-left py-2 px-4 text-sm text-gray-300 hover:bg-gray-800 hover:text-indigo-400 rounded-md"
+              className="mt-2 block w-full text-left py-2 px-4 text-sm muted hover:bg-surface hover:text-link rounded-md"
             >
               <span className="inline-flex items-center gap-2"><Globe className="h-4 w-4" />{t('common.switch_to')}</span>
             </button>

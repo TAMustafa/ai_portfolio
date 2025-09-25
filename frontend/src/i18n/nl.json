@@ -24,16 +24,16 @@
     "subtitle": "AI projecten en automatisering projecten",
     "items": [
       {
-        "slug": "locaal-rag",
+        "slug": "locaal-rag-nl",
         "title": "Een veilig en lokaal LLM / RAG systeem",
         "description": "In de huidige datagedreven wereld staan ​​organisaties voor twee hardnekkige uitdagingen: het beheren van enorme hoeveelheden verspreide informatie en het beschermen van gevoelige gegevens tegen het verlaten van beveiligde omgevingen.",
         "tags": ["ChromaDB", "RAG", "Embeddings", "Langchain"]
       },
       {
-        "slug": "ai-klantenservice",
-        "title": "AI-gestuurde Klantenservice",
-        "description": "Een chatbot die 80% van de standaardvragen afhandelt, met snellere reacties en hogere klanttevredenheid.",
-        "tags": ["AI/ML", "Klantenservice", "NLP"]
+        "slug": "reddit-n8n-nl",
+        "title": "Automatisering van Reddit Fintech Intelligence met n8n",
+        "description": "In de snelle wereld van financiële dienstverlening zijn waardevolle inzichten vaak te vinden in verspreide communitydiscussies – verstopt in forums, subreddits en eindeloze reacties.",
+        "tags": ["n8n", "Automation", "LLM", "GoogleSheets"]
       },
       {
         "slug": "dynamische-prijsengine",
@@ -65,5 +65,8 @@
   },
   "footer": {
     "rights": "Alle rechten voorbehouden."
+  },
+  "chat": {
+    "welcome": "Hoi! Ik ben Tarek's portfolio-assistent. Vraag me naar zijn ervaaring of projecten."
   }
 }

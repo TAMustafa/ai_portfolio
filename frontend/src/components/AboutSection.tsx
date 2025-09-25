@@ -8,7 +8,7 @@ const SocialLink = ({ href, icon: Icon, label }: { href: string; icon: React.Ele
     href={href}
     target="_blank"
     rel="noopener noreferrer"
-    className="flex items-center gap-3 text-lg text-gray-300 hover:text-teal-400 transition-colors duration-300"
+    className="flex items-center gap-3 text-lg muted hover:text-teal-700 transition-colors duration-300"
     whileHover={{ scale: 1.05 }}
     whileTap={{ scale: 0.95 }}
   >
@@ -21,7 +21,7 @@ export const AboutSection = () => {
   const { t } = useI18n();
 
   return (
-    <section id="about" className="min-h-screen snap-start flex items-center justify-center bg-gray-900 py-20">
+    <section id="about" className="min-h-screen snap-start flex items-center justify-center bg-paper py-20">
       <div className="container mx-auto px-4 flex flex-col md:flex-row items-center gap-12">
         <motion.div 
           className="w-48 h-48 md:w-64 md:h-64 flex-shrink-0"
@@ -32,7 +32,7 @@ export const AboutSection = () => {
           <img 
             src="/images/TarekMustafa.png" 
             alt="Profile" 
-            className="rounded-full object-cover w-full h-full border-4 border-gray-700 shadow-lg"
+            className="rounded-full object-cover w-full h-full border-4 border-border shadow-lg"
           />
         </motion.div>
         <motion.div 
@@ -42,7 +42,7 @@ export const AboutSection = () => {
           transition={{ duration: 0.5, delay: 0.2 }}
         >
           <h2 className="text-4xl md:text-5xl font-bold mb-4">{t('about.title')}</h2>
-          <p className="text-lg text-gray-400 max-w-xl mb-8 leading-relaxed">
+          <p className="text-lg muted max-w-xl mb-8 leading-relaxed">
             {t('about.subtitle')}
           </p>
           <div className="flex justify-center md:justify-start items-center gap-6 md:gap-8 flex-wrap">
@@ -66,4 +66,5 @@ export const AboutSection = () => {
       </div>
     </section>
   );
-};
+}
+;

@@ -102,7 +102,7 @@ export default function App() {
   };
 
   return (
-    <div className="bg-gray-900 text-gray-200 font-sans antialiased">
+    <div className="bg-paper text-ink font-sans antialiased">
       <Header activeSection={activeSection} scrollToSection={scrollToSection} />
       {isHome && (
         <ScrollDots activeSection={activeSection} sections={sections} onSelect={scrollToSection} />

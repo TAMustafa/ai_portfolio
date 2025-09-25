@@ -1,0 +1,49 @@
+<ProjectLayout
+  title="Automating Reddit Fintech Intelligence with n8n"
+  subtitle="Secure, Context-Aware Knowledge Retrieval"
+  tags={["n8n", "Automation", "LLM", "GoogleSheets"]}
+  >
+
+In the fast-paced world of financial services, valuable insights often live in scattered community discussions — buried inside forums, subreddits, and endless comment threads.
+Manually tracking these conversations is time-consuming, inconsistent, and often incomplete.
+
+This project shows how I used n8n automation + AI analysis to build a workflow that continuously scans finance-related subreddits, extracts user-reported issues, and summarizes actionable insights.
+
+## Automated Reddit Monitoring using <a href="https://n8n.io/" target="_blank">n8n</a>
+I built a workflow in n8n that automates the entire pipeline:
+
+1. Multi-Source Collection
+The system simultaneously queries multiple subreddits, including:
+- **r/FinTech** → innovative financial technology insights
+- **r/Banking** → traditional banking challenges
+- **r/PaymentProcessing** → operational payment issues
+
+2. Data Processing
+- Merge & Deduplicate: Combines results, removes duplicates and outdated posts.
+- Field Normalization: Standardizes data for consistency.
+- Intelligent Filtering: Focuses on problem/solution-oriented posts.
+
+<Callout type="info" title="Filter voor relevante resultaten">
+Filters ensure results are recent (≤3 days old) and only fetch posts that contain the words “issue” or “problem” in the text.
+</Callout>
+
+3. AI-Powered Analysis
+I integrated Anthropic Claude to:
+- Assess each post’s relevance
+- Extract key problems and proposed solutions
+- Summarize insights into short, actionable outputs
+- Detect emerging trends across discussions
+
+4. Structured Output & Storage
+Results are formatted using n8n’s Output Parser and automatically stored in Google Sheets for:
+- Clean, searchable structure
+- Easy sharing across teams
+- A growing knowledge base of user-reported fintech and banking pain points
+
+### Technology Used
+- **n8n**: Workflow automation engine (cloud or self-hosted)
+- **Reddit API**: Subreddit queries and filtering
+- **Claude (Anthropic)**: Natural language analysis and summarization
+- **Google Sheets**: Persistent structured output
+
+</ProjectLayout>

@@ -76,26 +76,26 @@ export function PortfolioSection() {
   ];
 
   return (
-    <section id="portfolio" className="min-h-screen snap-start flex items-center justify-center bg-gray-900 py-20">
+    <section id="portfolio" className="min-h-screen snap-start flex items-center justify-center bg-paper py-20">
       <div className="container mx-auto px-4">
         <h2 className="text-3xl md:text-4xl font-bold text-center mb-4">{t('portfolio.title')}</h2>
-        <p className="text-lg text-gray-400 text-center max-w-2xl mx-auto mb-12">{t('portfolio.subtitle')}</p>
+        <p className="text-lg muted text-center max-w-2xl mx-auto mb-12">{t('portfolio.subtitle')}</p>
         <div className="grid md:grid-cols-2 gap-8">
           {items?.map((project, index) => {
             const card = (
               <motion.div
                 key={`${project.title}-${index}`}
-                className="bg-gray-800/50 p-6 rounded-xl border border-gray-700/50 hover:border-indigo-500/50 transition-colors duration-300 flex items-start space-x-4"
+                className="card p-6 hover:border-link/50 transition-colors duration-300 flex items-start space-x-4"
                 whileHover={{ y: -5 }}
                 transition={{ type: 'spring', stiffness: 300 }}
               >
-                <div className="flex-shrink-0 bg-gray-900 p-3 rounded-lg">{icons[index % icons.length]}</div>
+                <div className="flex-shrink-0 bg-white/60 p-3 rounded-lg border border-border">{icons[index % icons.length]}</div>
                 <div>
-                  <h3 className="text-xl font-bold mb-2 text-gray-100">{project.title}</h3>
-                  <p className="text-gray-400 mb-4">{project.description}</p>
+                  <h3 className="text-xl font-bold mb-2 text-ink">{project.title}</h3>
+                  <p className="muted mb-4">{project.description}</p>
                   <div className="flex flex-wrap gap-2">
                     {project.tags.map((tag) => (
-                      <span key={`${project.title}-${tag}`} className="text-xs font-mono bg-gray-700 text-indigo-300 px-2 py-1 rounded-full">
+                      <span key={`${project.title}-${tag}`} className="chip">
                         {tag}
                       </span>
                     ))}

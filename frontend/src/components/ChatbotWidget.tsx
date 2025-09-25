@@ -66,8 +66,7 @@ export default function ChatbotWidget() {
   const [messages, setMessages] = useState<Message[]>([
     {
       role: 'assistant',
-      content:
-        "Hi! I'm your portfolio assistant. Ask me about projects (e.g., 'AI', 'pricing', 'CRM') or about my experience.",
+      content: t('chat.welcome') as string,
     },
   ]);
   const [input, setInput] = useState('');
@@ -80,6 +79,18 @@ export default function ChatbotWidget() {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     }
   }, [isOpen, messages]);
+
+  // Refresh the initial assistant message when language changes
+  useEffect(() => {
+    setMessages((prev) => {
+      if (!prev.length) return prev;
+      const first = prev[0];
+      if (first.role !== 'assistant') return prev;
+      const localized = t('chat.welcome') as string;
+      if (first.content === localized) return prev;
+      return [{ ...first, content: localized }, ...prev.slice(1)];
+    });
+  }, [lang, t]);
 
   // Detect backend health on mount to show status indicator
   useEffect(() => {
@@ -227,11 +238,11 @@ export default function ChatbotWidget() {
 
       {/* Chat Panel */}
       {isOpen && (
-        <div className="w-[92vw] max-w-sm sm:max-w-md md:max-w-md h-[60vh] sm:h-[60vh] md:h-[65vh] bg-gray-900 border border-gray-700 rounded-xl shadow-2xl overflow-hidden">
+        <div className="w-[92vw] max-w-sm sm:max-w-md md:max-w-md h-[60vh] sm:h-[60vh] md:h-[65vh] bg-surface border border-border rounded-xl shadow-2xl overflow-hidden">
           {/* Header */}
-          <div className="flex items-center justify-between px-4 py-3 bg-gray-800/70 border-b border-gray-700">
-            <div className="flex items-center gap-2 text-gray-100">
-              <BookOpen className="w-5 h-5 text-indigo-400" />
+          <div className="flex items-center justify-between px-4 py-3 bg-surface border-b border-border">
+            <div className="flex items-center gap-2 text-ink">
+              <BookOpen className="w-5 h-5 text-link" />
               <span className="font-semibold">Portfolio Assistant</span>
             </div>
             <div className="flex items-center gap-3">
@@ -243,7 +254,7 @@ export default function ChatbotWidget() {
                     (backendStatus === 'connected'
                       ? 'bg-green-500'
                       : backendStatus === 'fallback'
-                      ? 'bg-gray-500'
+                      ? 'bg-ink/30'
                       : 'bg-yellow-500')
                   }
                   title={
@@ -254,7 +265,7 @@ export default function ChatbotWidget() {
                       : 'Checking backend…'
                   }
                 />
-                <span className="text-gray-300">
+                <span className="muted">
                   {backendStatus === 'connected'
                     ? 'LLM connected'
                     : backendStatus === 'fallback'
@@ -265,7 +276,7 @@ export default function ChatbotWidget() {
               <button
                 aria-label="Close chat"
                 onClick={() => setIsOpen(false)}
-                className="p-1 rounded hover:bg-gray-700 text-gray-300"
+                className="p-1 rounded hover:bg-surface muted"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -281,7 +292,7 @@ export default function ChatbotWidget() {
                     'max-w-[85%] whitespace-pre-wrap rounded-lg px-3 py-2 text-sm ' +
                     (m.role === 'user'
                       ? 'bg-indigo-600 text-white'
-                      : 'bg-gray-800 text-gray-100 border border-gray-700')
+                      : 'bg-surface text-ink border border-border')
                   }
                 >
                   {m.content}
@@ -291,29 +302,22 @@ export default function ChatbotWidget() {
 
             {loading && (
               <div className="flex justify-start">
-                <div className="max-w-[85%] rounded-lg px-3 py-2 text-sm bg-gray-800 text-gray-300 border border-gray-700">
+                <div className="max-w-[85%] rounded-lg px-3 py-2 text-sm bg-surface muted border border-border">
                   Thinking...
                 </div>
               </div>
             )}
-
-            {/* Hints */}
-            <div className="text-xs text-gray-400 flex items-start gap-2">
-              <Info className="w-4 h-4 flex-shrink-0 text-gray-500" />
-              <div>
-                Try: "list projects", "AI", "pricing", "CRM", or "about your experience".
-              </div>
-            </div>
+          
           </div>
 
           {/* Input */}
-          <div className="flex items-center gap-2 p-3 border-t border-gray-700 bg-gray-800/60">
+          <div className="flex items-center gap-2 p-3 border-t border-border bg-surface">
             <input
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={onKeyDown}
               placeholder="Ask about projects or experience..."
-              className="flex-1 rounded-lg bg-gray-900 border border-gray-700 px-3 py-2 text-sm text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-600"
+              className="flex-1 rounded-lg bg-white border border-border px-3 py-2 text-sm text-ink placeholder-ink/50 focus:outline-none focus:ring-2 focus:ring-indigo-600"
             />
             <button
               onClick={send}

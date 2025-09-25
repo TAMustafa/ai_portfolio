@@ -21,10 +21,10 @@
         "tags": ["ChromaDB", "RAG", "Embeddings", "Langchain"]
       },
       {
-        "slug": "ai-customer-support",
-        "title": "AI-Powered Customer Support",
-        "description": "Implemented a chatbot handling 80% of routine customer queries, improving response times and customer satisfaction.",
-        "tags": ["AI/ML", "Customer Service", "NLP"]
+        "slug": "reddit-n8n",
+        "title": "Automating Reddit Fintech Intelligence with n8n",
+        "description": "In the fast-paced world of financial services, valuable insights often live in scattered community discussions — buried inside forums, subreddits, and endless comment threads.",
+        "tags": ["n8n", "Automation", "LLM", "GoogleSheets"]
       },
       {
         "slug": "dynamic-pricing-engine",
@@ -65,5 +65,8 @@
   },
   "footer": {
     "rights": "All rights reserved."
+  },
+  "chat": {
+    "welcome": "Hi! I'm Tarek's portfolio assistant. Ask me about his experience or projects."
   }
 }

@@ -12,30 +12,30 @@ export default function ProjectLayout({ title, subtitle, tags, heroImageUrl, chi
   return (
     <section className="relative overflow-hidden">
       {heroImageUrl ? (
-        <div className="relative h-56 md:h-72 mb-8 rounded-2xl overflow-hidden border border-gray-800">
+        <div className="relative h-56 md:h-72 mb-8 rounded-2xl overflow-hidden border border-ink/20">
           <img src={heroImageUrl} alt={title ?? ''} className="w-full h-full object-cover opacity-70" />
-          <div className="absolute inset-0 bg-gradient-to-t from-gray-900/80 to-gray-900/30" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-black/10" />
         </div>
       ) : null}
 
       {title ? (
-        <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-indigo-300 via-white to-teal-300 mb-2">
+        <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight text-ink mb-2">
           {title}
         </h1>
       ) : null}
-      {subtitle ? <p className="text-gray-400 mb-4">{subtitle}</p> : null}
+      {subtitle ? <p className="text-ink-muted mb-4">{subtitle}</p> : null}
 
       {tags && tags.length > 0 ? (
         <div className="flex flex-wrap gap-2 mb-8">
           {tags.map((t) => (
-            <span key={t} className="text-xs font-mono bg-gray-800 text-indigo-300 px-2 py-1 rounded-full border border-gray-700">
+            <span key={t} className="text-xs font-mono bg-white/60 text-indigo-800 px-2 py-1 rounded-full border border-ink/20">
               {t}
             </span>
           ))}
         </div>
       ) : null}
 
-      <div className="prose prose-invert max-w-none">
+      <div className="prose max-w-none">
         {children}
       </div>
     </section>
