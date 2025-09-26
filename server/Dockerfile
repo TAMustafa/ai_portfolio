@@ -15,9 +15,8 @@ RUN npm ci --omit=dev
 # Copy server code and any content the server needs at runtime
 COPY server/ ./server/
 
-# Prefer new layout (frontend/src/content), fallback to legacy (src/content)
+# Copy content used for knowledge indexing (new layout)
 COPY frontend/src/content/ ./frontend/src/content/
-COPY src/content/ ./src/content/
 
 # Cloud Run provides $PORT, our server listens on process.env.PORT
 EXPOSE 8080
