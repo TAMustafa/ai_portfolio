@@ -26,7 +26,7 @@
       {
         "slug": "locaal-rag-nl",
         "title": "Een veilig en lokaal LLM / RAG systeem",
-        "description": "In de huidige datagedreven wereld staan ​​organisaties voor twee hardnekkige uitdagingen: het beheren van enorme hoeveelheden verspreide informatie en het beschermen van gevoelige gegevens tegen het verlaten van beveiligde omgevingen.",
+        "description": "In de huidige datagedreven wereld staan ​​organisaties voor twee hardnekkige uitdagingen: het beheren van enorme hoeveelheden verspreide informatie en het beschermen van gevoelige gegevens.",
         "tags": ["ChromaDB", "RAG", "Ollama", "Langchain"]
       },
       {
@@ -36,16 +36,10 @@
         "tags": ["n8n", "Automation", "LLM", "GoogleSheets"]
       },
       {
-        "slug": "dynamische-prijsengine",
-        "title": "Dynamische Prijsengine",
-        "description": "Een prijsinstrument dat prijzen aanpast op basis van vraag en concurrentie, +15% winst voor een reisbureau.",
-        "tags": ["Data-analyse", "Automatisering", "API"]
-      },
-      {
-        "slug": "crm-data-entry-automatisering",
-        "title": "CRM Data-entry Automatisering",
-        "description": "Workflow die klantinfo uit e-mails haalt en naar het CRM schrijft, goed voor 10+ uur tijdbesparing per week.",
-        "tags": ["Workflow", "CRM", "E-mail parsing"]
+        "slug": "chrome-extension-nl",
+        "title": "Chrome-extensie: CV- en functiebeschrijving analysor",
+        "description": "Solliciteren kan frustrerend zijn: je past je cv aan, verstuurt tientallen sollicitaties en hoort vaak niets terug.",
+        "tags": ["FastAPI", "NLP", "Docker", "API"]
       }
     ]
   },

@@ -27,16 +27,10 @@
         "tags": ["n8n", "Automation", "LLM", "GoogleSheets"]
       },
       {
-        "slug": "dynamic-pricing-engine",
-        "title": "Dynamic Pricing Engine",
-        "description": "Created a pricing tool for a local travel agent that adjusts prices based on demand and competitor data, boosting profits by 15%.",
-        "tags": ["Data Analysis", "Automation", "API"]
-      },
-      {
-        "slug": "crm-data-entry-automatisering",
-        "title": "CRM Data Entry Automation",
-        "description": "Built a workflow that automatically extracts customer info from emails and populates the CRM, saving 10+ hours of manual work weekly.",
-        "tags": ["Workflow Automation", "CRM", "Email Parsing"]
+        "slug": "chrome-extension",
+        "title": "Chrome Extension: CV & Job Description Analyzer",
+        "description": "Applying for jobs can be frustrating — you tailor your CV, send out dozens of applications, and often hear nothing back. One reason is that many companies use Applicant Tracking Systems (ATS) to filter candidates.",
+        "tags": ["FastAPI", "NLP", "Docker", "API"]
       }
     ]
   },

@@ -9,6 +9,7 @@ import ProjectPage from "./pages/ProjectPage";
 import ChatbotWidget from "./components/ChatbotWidget";
 import ScrollDots from "./components/ScrollDots";
 import { useI18n } from "./i18n/I18nProvider";
+import SiteSEO from "./components/SiteSEO";
 
 const SECTIONS = ["about", "portfolio", "contact"] as const;
 
@@ -106,6 +107,8 @@ export default function App() {
 
   return (
     <div className="bg-paper text-ink font-sans antialiased">
+      {/* Default site-wide SEO */}
+      <SiteSEO />
       <Header activeSection={activeSection} scrollToSection={scrollToSection} />
       {isHome && (
         <ScrollDots

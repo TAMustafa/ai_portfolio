@@ -1,0 +1,40 @@
+<ProjectLayout
+  title="Chrome Extension: CV & Job Description Analyzer"
+  subtitle="Secure, Context-Aware Knowledge Retrieval"
+  tags={["n8n", "Automation", "LLM", "GoogleSheets"]}
+  >
+
+Applying for jobs can be frustrating — you tailor your CV, send out dozens of applications, and often hear nothing back. 
+One reason is that many companies use Applicant Tracking Systems (ATS) to filter candidates. 
+If your CV doesn’t align with the job description, it may never even reach a recruiter’s desk.
+
+That’s where this project comes in. I built a Chrome extension that helps candidates instantly check how well their CV matches a job description and highlights gaps they could address. 
+It’s a practical tool for anyone trying to make their applications more effective.
+
+### How it works
+
+- Paste or upload a CV and a job description directly in the extension.
+- The text is securely sent to the backend API for analysis.
+- The tool highlights key skills, keywords, and experience matches (and mismatches).
+
+<Callout type="info" title="Quick Result">
+ Results are displayed directly in the browser — lightweight, fast, and actionable.
+</Callout>
+
+### Tech Stack
+
+**Frontend (Chrome Extension)**
+- JavaScript / HTML / CSS
+- Manifest V3 for modern extension security and performance
+- Simple UI for seamless in-browser use
+
+**Backend (API)**
+- FastAPI (Python) for scalable endpoints
+- NLP-driven comparison to detect relevant keywords and skills  
+- Packaged with Docker for easy deployment
+
+### Why this project?
+The job market is competitive, and many applications are screened by algorithms before a human even sees them. 
+This tool helps candidates get closer to "ATS-friendly" CVs by giving instant feedback on alignment with job postings.
+
+</ProjectLayout>

@@ -178,82 +178,14 @@ Tekst en code…
 ## Production Config
 
 - The chatbot widget calls the backend at `/api/chat` in development via the Vite proxy.
-- In production, set `VITE_API_BASE` to your API base URL (e.g., `https://api.example.com`) so the widget calls `${VITE_API_BASE}/chat`.
+- In production, set `VITE_API_BASE` to your API base URL including the `/api` path (e.g., `https://api.example.com/api` or `https://<cloud-run-url>/api`) so the widget calls `${VITE_API_BASE}/chat` and `${VITE_API_BASE}/health`.
 - Backend uses `OPENAI_API_KEY` (server-side only). Never expose this key in the browser.
 
-## AWS Deployment
+### SEO
 
-This project splits into a static frontend (S3/CloudFront) and a serverless backend (API Gateway + Lambda) for the chat/LLM API.
-
-### Frontend: S3 + CloudFront
-
-1. Build the app
-
-   ```bash
-   npm run build
-   ```
-
-   This produces the static site in `dist/`.
-
-2. Create an S3 bucket (e.g., `my-portfolio-site`) and enable static website hosting (or use CloudFront default root object).
-
-3. Upload `dist/` to S3 (via AWS CLI or console)
-
-   ```bash
-   aws s3 sync dist/ s3://my-portfolio-site --delete
-   ```
-
-4. Put CloudFront in front of S3 for HTTPS and caching
-   - Origin: the S3 bucket (static website endpoint or S3 origin)
-   - Default Root Object: `index.html`
-   - Error Responses (for SPA routing): map 403/404 to `/index.html` with 200 status
-   - Custom domain and certificate (ACM) as needed
-
-### Backend: API Gateway + Lambda (Node)
-
-You can adapt `server/server.mjs` for Lambda. Two options:
-
-- Simple adapter (recommended): use `@vendia/serverless-express` to wrap the existing Express app.
-- Native Lambda handler: extract the chat logic to a `handler.mjs` and map API Gateway routes to the handler.
-
-Minimal outline using `@vendia/serverless-express`:
-
-```js
-// lambda.js
-import serverlessExpress from "@vendia/serverless-express";
-import app from "./express-app.mjs"; // export the Express app from server/server.mjs after refactor
-
-export const handler = serverlessExpress({ app });
-```
-
-Environment variables:
-
-- `OPENAI_API_KEY`: stored in Lambda env vars or AWS Secrets Manager
-
-API Gateway:
-
-- Create a REST/HTTP API that routes `POST /chat` to the Lambda handler
-- Enable CORS to allow your CloudFront domain (e.g., `https://www.example.com`)
-- Optional: add `POST /reindex` for content refresh
-
-### Frontend → Backend connection (production)
-
-Set `VITE_API_BASE` in your frontend build environment to the deployed API base:
-
-```bash
-export VITE_API_BASE="https://api.example.com"
-npm run build
-```
-
-Deploy the resulting `dist/` to S3. The chat widget will call `${VITE_API_BASE}/chat` in production and `/api/chat` in local dev.
-
-### CORS
-
-On API Gateway (or Lambda if returning manually):
-
-- Allow `Access-Control-Allow-Origin: https://your-frontend-domain`
-- Allow `POST` and `OPTIONS` methods
-- Allow `Content-Type` header
+- This app uses `react-helmet-async` via `SiteSEO` to manage titles and meta tags.
+- Default tags are added in `frontend/src/components/SiteSEO.tsx` and base fallbacks in `frontend/index.html`.
+- The current i18n language updates the `<html lang>` attribute for better SEO.
 
 ### Google Cloud Deployment
 
@@ -307,8 +239,8 @@ Take note of the Cloud Run URL (e.g., `https://portfolio-api-xxxx-uc.a.run.app`)
 Option A — Cloud Storage + Cloud CDN:
 
 ```bash
-# Build frontend
-VITE_API_BASE="https://portfolio-api-xxxx-uc.a.run.app" npm run build
+# Build frontend (note the /api path)
+VITE_API_BASE="https://portfolio-api-xxxx-uc.a.run.app/api" npm run build
 
 # Create a bucket and upload (adjust bucket name and region)
 gsutil mb -l EU gs://my-portfolio-site
@@ -328,14 +260,49 @@ firebase login
 firebase init hosting  # select existing project
 
 # Configure rewrite for SPA (respond with /index.html)
-# Then build with API base and deploy
-VITE_API_BASE="https://portfolio-api-xxxx-uc.a.run.app" npm run build
+# Then build with API base (include /api) and deploy
+VITE_API_BASE="https://portfolio-api-xxxx-uc.a.run.app/api" npm run build
 firebase deploy --only hosting
 ```
 
+### Quick Deploy: Vercel
+
+1. Install dependencies and build locally
+
+```bash
+npm install
+VITE_API_BASE="https://<your-cloud-run-or-api-domain>/api" npm run build
+```
+
+2. Push the repo to GitHub and import into Vercel
+
+- Framework preset: Vite
+- Build command: `npm run build`
+- Output directory: `dist`
+- Environment variables: set `VITE_API_BASE` (include trailing `/api`)
+
+3. Assign a domain and redeploy.
+
+### Quick Deploy: Netlify
+
+1. Install dependencies and build locally
+
+```bash
+npm install
+VITE_API_BASE="https://<your-cloud-run-or-api-domain>/api" npm run build
+```
+
+2. Netlify configuration
+
+- Build command: `npm run build`
+- Publish directory: `dist`
+- Environment variable: `VITE_API_BASE` with your API base including `/api`
+
+3. Drag-and-drop `dist/` to Netlify or connect the repo and deploy.
+
 ### Production Build Config
 
-- At build time, set `VITE_API_BASE` to your Cloud Run URL (or a custom domain pointing to Cloud Run). The chat widget will call `${VITE_API_BASE}/chat` in production.
+- At build time, set `VITE_API_BASE` to your Cloud Run URL (or a custom domain pointing to Cloud Run) including the `/api` path, e.g., `https://<service>-<hash>-<region>.a.run.app/api`. The chat widget will call `${VITE_API_BASE}/chat` in production.
 - See `.env.production.example` for an example.
 - Keep `OPENAI_API_KEY` in Cloud Run env vars (never in the browser).
 
@@ -345,7 +312,7 @@ The Express app runs on Cloud Run and returns JSON. If you restrict CORS, allow 
 
 ## Notes
 
-- The backend must not be hosted on S3 (S3 is static-only). Use Lambda, ECS/Fargate, or EC2.
+- The backend must run on a compute platform (not static storage). For Google Cloud, use Cloud Run (container) for the API and Cloud Storage + Cloud CDN or Firebase Hosting for the frontend.
 - Keep `OPENAI_API_KEY` server-side only. Do not embed it in frontend code.
 - For better performance, you can cache the MDX index at cold start and provide a `/reindex` endpoint for manual refresh.
 

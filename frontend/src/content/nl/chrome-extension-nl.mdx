@@ -1,0 +1,40 @@
+<ProjectLayout
+  title="Chrome-extensie: CV- en functiebeschrijving analysor"
+  subtitle="Solliciteren kan frustrerend zijn: je past je cv aan, verstuurt tientallen sollicitaties en hoort vaak niets terug."
+  tags={["n8n", "Automation", "LLM", "GoogleSheets"]}
+  >
+
+Solliciteren kan frustrerend zijn: je past je cv aan, verstuurt tientallen sollicitaties en hoort vaak niets terug.
+Eén reden hiervoor is dat veel bedrijven Applicant Tracking Systems (ATS) gebruiken om kandidaten te filteren.
+
+Als je cv niet aansluit bij de functiebeschrijving, komt het mogelijk nooit bij een recruiter terecht.
+
+Daar komt dit project om de hoek kijken. Ik heb een Chrome-extensie gebouwd waarmee kandidaten direct kunnen controleren hoe goed hun cv aansluit bij een functiebeschrijving en lacunes kunnen worden aangegeven die ze kunnen opvullen.
+Het is een praktische tool voor iedereen die effectiever wil solliciteren.
+
+### Hoe het werkt
+
+- Plak of upload een cv en een functiebeschrijving rechtstreeks in de extensie.
+- De tekst wordt veilig naar de backend API gestuurd voor analyse.
+- De tool markeert belangrijke vaardigheden, trefwoorden en ervaringsmatches (en -mismatches).
+
+<Callout type="info" title="Quick Result">
+De resultaten worden direct in de browser weergegeven — compact, snel en bruikbaar. 
+</Callout>
+
+### Tech Stack
+**Frontend (Chrome-extensie)**
+- JavaScript / HTML / CSS
+- Manifest V3 voor moderne extensiebeveiliging en -prestaties
+- Eenvoudige gebruikersinterface voor naadloos gebruik in de browser
+
+**Backend (API)**
+- FastAPI (Python) voor schaalbare eindpunten
+- NLP-gestuurde vergelijking om relevante trefwoorden en vaardigheden te detecteren
+- Gebundeld met Docker voor eenvoudige implementatie
+
+### Waarom dit project?
+De arbeidsmarkt is competitief en veel sollicitaties worden door algoritmen gescreend voordat een mens ze überhaupt ziet.
+Deze tool helpt kandidaten dichter bij "ATS-vriendelijke" cv's te komen door direct feedback te geven over de afstemming op vacatures.
+
+</ProjectLayout>
