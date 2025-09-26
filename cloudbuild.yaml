@@ -1,0 +1,45 @@
+# Cloud Build pipeline to build and deploy the backend (Express API) to Cloud Run
+# - Builds using server/Dockerfile with the REPO ROOT as build context
+# - Pushes the image to Artifact Registry
+# - Deploys the image to Cloud Run and routes traffic to the new revision
+#
+# Customize via substitutions below (_REGION, _SERVICE).
+
+substitutions:
+  _REGION: europe-west4        # Change if you deploy in a different region
+  _SERVICE: ai-portfolio       # Your Cloud Run service name
+
+options:
+  logging: CLOUD_LOGGING_ONLY
+
+steps:
+  - name: gcr.io/cloud-builders/docker
+    id: Build image
+    args:
+      - build
+      - -t
+      - ${_REGION}-docker.pkg.dev/$PROJECT_ID/portfolio-api/portfolio-api:$SHORT_SHA
+      - -f
+      - server/Dockerfile
+      - .
+
+  - name: gcr.io/cloud-builders/docker
+    id: Push image
+    args:
+      - push
+      - ${_REGION}-docker.pkg.dev/$PROJECT_ID/portfolio-api/portfolio-api:$SHORT_SHA
+
+  - name: gcr.io/google.com/cloudsdktool/cloud-sdk
+    id: Deploy to Cloud Run
+    entrypoint: gcloud
+    args:
+      - run
+      - deploy
+      - ${_SERVICE}
+      - --image=${_REGION}-docker.pkg.dev/$PROJECT_ID/portfolio-api/portfolio-api:$SHORT_SHA
+      - --region=${_REGION}
+      - --platform=managed
+      - --allow-unauthenticated
+
+images:
+  - ${_REGION}-docker.pkg.dev/$PROJECT_ID/portfolio-api/portfolio-api:$SHORT_SHA
